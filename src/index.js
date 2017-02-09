@@ -97,15 +97,10 @@ function dispatchRequest(method, httpResponseHandler, store, action, httpLayer, 
  * @param {Function} dispatch - The store dispatcher function
  * @param {String} state - The current state of the request
  * @param {Function} action - The function that receive a state and return an action or action creator
- * @param {*} payload - The payload to be dispatched
+ * @param {*} [payload] - The payload to be dispatched
  */
 function dispatchState(dispatch, state, action, payload) {
-  let actionObj;
-
-  if (typeof action === 'function')
-    actionObj = action();
-  else
-    actionObj = action;
+  let actionObj = action(state);
 
   if (payload)
     actionObj.payload = payload;
