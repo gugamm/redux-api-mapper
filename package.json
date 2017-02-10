@@ -7,7 +7,10 @@
   },
   "author": "gugamm",
   "license": "MIT",
-  "repository" : "https://github.com/gugamm/redux-api-mapper",
+  "repository" : {
+    "type": "git",
+    "url" : "https://github.com/gugamm/redux-api-mapper"
+  },
   "dependencies": {
     "react": "^15.4.2"
   }
