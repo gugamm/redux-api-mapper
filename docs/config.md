@@ -34,8 +34,10 @@ This section will provide you the shape of the config object. Here we will list 
                         headers : {
                             'Another-Fancy-Header' : 'Fancy-Header'
                         }
+                    }
                 ]
         ]
+    }
 ```
 
 ### Caveats
