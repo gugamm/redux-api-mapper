@@ -7,11 +7,14 @@ const apiConnect    = require('./api-connect');
 const ApiProvider   = require('./ApiProvider');
 
 module.exports = {
-  HTTP_METHODS : HTTP_METHODS,
-  FETCH_STATES : FETCH_STATES,
-  MAPPER : MAPPER,
-  BROWSER_LAYER : BROWSER_LAYER,
-  stateToAction : stateToAction,
-  apiConnect : apiConnect,
-  ApiProvider : ApiProvider
+  HttpMethods                  : HTTP_METHODS,
+  FetchStates                  : FETCH_STATES,
+  createMapper                 : MAPPER.createMapper,
+  addEndPointToMapper          : MAPPER.addEndPointToMapper,
+  addResourceToMapper          : MAPPER.addResourceToMapper,
+  createPromiseHttpLayer       : BROWSER_LAYER.createPromiseBrowserHttpLayer,
+  createPromiseResponseHandler : BROWSER_LAYER.createPromiseResponseHandler,
+  stateToAction                : stateToAction,
+  apiConnect                   : apiConnect,
+  ApiProvider                  : ApiProvider
 };
