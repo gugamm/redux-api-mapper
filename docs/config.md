@@ -47,4 +47,10 @@ var config = {
 * Every path parameter inside brackets are handled by the library. This mapper will try to match the param name with a param provided by you when you do the request call
 * ``actionOnFetch and others`` can be an action creator or an action object containing the type. In case of a function(action creator), it will call the function passing the response as a parameter and it will expect an object with a type and the payload as return.
 
+### Tips
+
+* You can (and should) put each resource in a separated file
+* Always use stateToAction helper unless you have a good reason to do it by hand
+* Add optional parameters as comments in your end-points, so you'll know what are the possible parameters
+
 <b>Thats it! Go to the next section to learn how to create an Http-Layer and to start doing your requests</b>
