@@ -9,6 +9,7 @@ function createPromiseBrowserHttpLayer() {
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
           const response = {
+            data : xhr.response,
             status: xhr.status,
             statusText: xhr.statusText,
             getResponseHeader: xhr.getResponseHeader,

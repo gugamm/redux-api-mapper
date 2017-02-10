@@ -104,9 +104,14 @@ function dispatchRequest(method, httpResponseHandler, store, action, httpLayer, 
  */
 function buildStateDispatcher(storeDispatcher, action) {
   return function (state, payload) {
-    let actionObj = action(state);
-    if (payload)
-      actionObj.payload = payload;
+    let actionResult = action(state);
+    let actionObj;
+
+    if (typeof actionResult === "function")
+      actionObj = actionResult(payload);
+    else
+      actionObj = Object.assign({}, actionResult, {payload});
+
     storeDispatcher(actionObj);
   }
 }
