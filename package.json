@@ -1,17 +1,26 @@
 {
   "name": "redux-api-mapper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A redux api mapper",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build" : "babel src -d dist --ignore node_modules"
   },
   "author": "gugamm",
   "license": "MIT",
-  "repository" : {
+  "repository": {
     "type": "git",
-    "url" : "https://github.com/gugamm/redux-api-mapper"
+    "url": "https://github.com/gugamm/redux-api-mapper"
   },
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "react": "^15.4.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0"
   }
 }
