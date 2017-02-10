@@ -152,7 +152,7 @@ function buildRequest(fullPath, path, params, headers, body, options) {
   return {fullPath, path, params, headers, body, options};
 }
 
-module.expors = {
+module.exports = {
   createMapper : createMapper,
   addResourceToMapper : addEndPointToMapper,
   addEndPointToMapper : addEndPointToMapper
