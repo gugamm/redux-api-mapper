@@ -1,3 +1,6 @@
+const HTTP_METHODS = require('../http-methods');
+const FETCH_STATES = require('../fetch-states');
+
 /**
  * Create a promise based browser http layer. A request will return a promise that will resolve in a response object
  * @returns {{get: get, put: put, post: post, head: head, delete: delete, patch: patch}}
@@ -29,22 +32,22 @@ function createPromiseBrowserHttpLayer() {
 
   return {
     get : function (request) {
-      return doHttpRequest(HttpMethods.GET, request);
+      return doHttpRequest(HTTP_METHODS.GET, request);
     },
     put : function (request) {
-      return doHttpRequest(HttpMethods.PUT, request);
+      return doHttpRequest(HTTP_METHODS.PUT, request);
     },
     post : function (request) {
-      return doHttpRequest(HttpMethods.POST, request);
+      return doHttpRequest(HTTP_METHODS.POST, request);
     },
     head : function (request) {
-      return doHttpRequest(HttpMethods.HEAD, request);
+      return doHttpRequest(HTTP_METHODS.HEAD, request);
     },
     delete : function (request) {
-      return doHttpRequest(HttpMethods.DELETE, request);
+      return doHttpRequest(HTTP_METHODS.DELETE, request);
     },
     patch : function (request) {
-      return doHttpRequest(HttpMethods.PATCH, request);
+      return doHttpRequest(HTTP_METHODS.PATCH, request);
     }
   }
 };
@@ -60,9 +63,9 @@ function createPromiseResponseHandler() {
     httpLayerResult.then(
       response => {
         if (response.ok)
-          stateDispatcher(FETCH_COMPLETED, response);
+          stateDispatcher(FETCH_STATES.FETCH_COMPLETED, response);
         else
-          stateDispatcher(FETCH_ERROR, response);
+          stateDispatcher(FETCH_STATES.FETCH_ERROR, response);
       }
     )
   }

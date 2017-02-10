@@ -46,7 +46,7 @@ function addEndPointToMapper(mapper, resource, endPoint) {
     headers : endPoint.headers,
     method  : endPoint.method,
     action  : endPoint.action,
-    call    : buildCallMethod(mapper, resource, mapper[resource.name][endPoint.name])
+    call    : buildCallMethod(mapper, resource, endPoint)
   };
 }
 
@@ -63,7 +63,7 @@ function buildCallMethod(mapper, resource, endPoint) {
   return function (params, headers, body, options) {
     const { httpLayer, httpResponseHandler } = mapper;
     const path = applyParamsToPath(resource.path + endPoint.path, params);
-    const method = endPoint.method.toUpperCase();
+    const method = (endPoint.method)? endPoint.method.toUpperCase() : HTTP_METHODS.GET;
     const headersBuilt = Object.assign({}, mapper.headers, resource.headers, endPoint.headers, headers);
     const request = buildRequest(mapper.host + path, path, params, headersBuilt, body, options);
 
@@ -109,8 +109,10 @@ function buildStateDispatcher(storeDispatcher, action) {
 
     if (typeof actionResult === "function")
       actionObj = actionResult(payload);
-    else
+    else if (typeof actionResult === "object")
       actionObj = Object.assign({}, actionResult, {payload});
+    else
+      throw new Error('Action mapper is not returning an action creator or action object. Cannot dispatch action to redux.');
 
     storeDispatcher(actionObj);
   }
