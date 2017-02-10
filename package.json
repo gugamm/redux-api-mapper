@@ -1,6 +1,6 @@
 {
   "name": "redux-api-mapper",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A redux api mapper",
   "main": "dist/index.js",
   "scripts": {
@@ -13,7 +13,8 @@
     "url": "https://github.com/gugamm/redux-api-mapper"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "README.md"
   ],
   "dependencies": {
     "react": "^15.4.2"
