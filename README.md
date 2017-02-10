@@ -64,6 +64,9 @@ This will initialize your request, dispatch the "FETCH" action to your store. On
 
 One thing to notice here is the `http-layer` and `http-response-handler` parameters. This library is isomorphic and was made to work with any kind of http library out there(fetch, axios, jquery...). For this to work, when creating a mapper, you must specify an object to handle the http request and an function to handle the result that the http-layer will produce (Promise, Observables...) and dispatch new state, so the library can dispatch the correct actions to your store. More on this in the documentation. 
 
-## Dependencies
+## Todos
 
-React
+- [ ] Add middleware support
+- [ ] Write tests
+- [ ] Add more http-layers
+- [ ] Better documentation
