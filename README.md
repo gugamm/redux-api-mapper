@@ -1,5 +1,7 @@
 # Redux-Api-Mapper
 
+[![NPM Version](https://badge.fury.io/js/redux-api-mapper.svg)](https://www.npmjs.com/package/redux-api-mapper)
+
 ## Motivation
 
 Many react/redux applications interact with an api. To solve this problem with redux, we use middlewares that are able to handle async actions, such as a http request. Using data in this approach is not wrong, however, sometimes it generates a lot of boilerplate. Especially when handling api requests.
