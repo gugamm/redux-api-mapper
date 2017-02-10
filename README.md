@@ -1,4 +1,4 @@
-# redux-api-mapper
+# Redux-Api-Mapper
 
 ## Motivation
 
@@ -35,7 +35,7 @@ var config = {
 		endPoints : [
 			{
 				name : 'userRepos',
-				path : '/users/{username}/repos',
+				path : 'users/{username}/repos',
 				action : stateToAction(actionOnFetch, actionOnComplete)
 			}
 		]
