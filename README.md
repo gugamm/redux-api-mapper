@@ -49,14 +49,14 @@ var config = {
 This is a common javascript object. The cool parts to notice here is the `/users/{username}/repos` in the end point and the `action` property. Redux-Api-Mapper automatically fullfill these parameter when making the request. Also, `stateToAction` is a function that maps the state of the request into an `action object` or `action creator` and dispatches to the redux store. Here is a full example:
 
 ```js
-import { MAPPER, stateToAction } from 'redux-api-mapper';
-import {store} from './yourstorefile';
+import { createMapper, stateToAction } from 'redux-api-mapper';
+import { store } from './yourstorefile';
 
 // Define the config
 const config = /*...*/
 
 // Create your api mapper
-const api = MAPPER.createMapper(store, config, /* http-layer */, /* http-response-handler */);
+const api = createMapper(store, config, /* http-layer */, /* http-response-handler */);
 
 // Use your api
 api.Repos.userRepos.call({username : 'gugamm'});
