@@ -3,42 +3,42 @@
 This section will provide you the shape of the config object. Here we will list all properties supported. We recommend using the ``stateToAction`` helper function when defining your actions in your config.
 
 ```js
-    var config = {
-        host : 'http://somehost.com/api',
-        headers : {
-            'Authorization' : 'your token'
-            'Content-type' : 'application/json'
+var config = {
+  host : 'http://somehost.com/api',
+  headers : {
+    'Authorization' : 'your token'
+    'Content-type' : 'application/json'
+  },
+  resources : [
+    {
+      name : 'Users',
+      path : '/users',
+      headers : {
+        'Some-Fancy-Header' : 'some-fancy-header'
+      },
+      endPoints : [
+        {
+          name : 'getUsers',
+          path : '/',
+          method : 'get',
+          action : stateToProps(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
+          headers : {
+            'Another-Fancy-Header' : 'fancy-header'
+          }
         },
-        resources : [
-            {
-                name : 'Users',
-                path : '/users',
-                headers : {
-                    'Some-Fancy-Header' : 'some-fancy-header'
-                },
-                endPoints : [
-                    {
-                        name : 'getUsers',
-                        path : '/',
-                        method : 'get',
-                        action : stateToProps(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
-                        headers : {
-                            'Another-Fancy-Header' : 'fancy-header'
-                        }
-                    },
-                    {
-                        name : 'getUser',
-                        path : '/{id}', //{param} -> will be handled by the library
-                        method : 'get', //'post', 'put', 'patch', 'delete'...
-                        action : stateToProps(actionOnFetch, actionOnComplete...)
-                        headers : {
-                            'Another-Fancy-Header' : 'Fancy-Header'
-                        }
-                    }
-                ]
-            }    
-        ]
+        {
+          name : 'getUser',
+          path : '/{id}', //{param} -> will be handled by the library
+          method : 'get', //'post', 'put', 'patch', 'delete'...
+          action : stateToProps(actionOnFetch, actionOnComplete),
+          headers : {
+            'Another-Fancy-Header' : 'Fancy-Header'
+          }
+        }
+      ]
     }
+  ]
+}
 ```
 
 ### Caveats
