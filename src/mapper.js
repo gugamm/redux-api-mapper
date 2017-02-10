@@ -3,8 +3,10 @@ let HTTP_METHODS = require('./http-methods');
 
 /**
  * Creates an api mapper object
+ * @param {Object} store - The redux store object
  * @param {Object} config - An object defining api mapper
- * @param {(Object|Function)} httpLayer - An object or function for resolving http requests
+ * @param {Object} httpLayer - An object for resolving http requests
+ * @param {Function} httpResponseHandler - A function to handle the response from the http layer and dispatch new request state
  */
 function createMapper(store, config, httpLayer, httpResponseHandler) {
   let mapper = {};
