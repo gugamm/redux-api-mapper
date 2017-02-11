@@ -1,6 +1,6 @@
 # Http-Layers and Response Handlers
 
-This section will guide you to create your own Http-Layer and Response Handlers. Keep in mind that Redux-Api-Mapper has some default Http-Layers that you can use, but if you need something more specific, you can create your own.
+This section will guide you to create your own Http-Layer and Response Handlers. Keep in mind that Redux-Api-Mapper has some default Http-Layers. If you don't specify an http layer when creating the mapper with ``createMapper``, the default http-layer will be used.
 
 ### What is a Http-Layer
 
