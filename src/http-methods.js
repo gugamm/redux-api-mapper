@@ -1,4 +1,4 @@
-const HTTP_METHODS = {
+const HttpMethods = {
   GET : 'GET',
   PUT : 'PUT',
   POST : 'POST',
@@ -7,4 +7,4 @@ const HTTP_METHODS = {
   PATCH : 'PATCH'
 };
 
-module.exports = HTTP_METHODS;
+export default HttpMethods;

@@ -1,8 +1,8 @@
-const React = require('react');
+import React, { Component } from 'react';
 
 function apiConnect(apiToProps) {
   return function (ConnectComponent) {
-    class ApiConnected extends React.Component {
+    class ApiConnected extends Component {
       constructor(props, context) {
         super(props, context);
         this.apiProps = apiToProps(context.api);
@@ -21,4 +21,4 @@ function apiConnect(apiToProps) {
   };
 };
 
-module.exports = apiConnect;
+export default apiConnect;

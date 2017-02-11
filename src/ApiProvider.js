@@ -1,6 +1,6 @@
-const React = require('react');
+import React, { Component } from 'react';
 
-class ApiProvider extends React.Component {
+class ApiProvider extends Component {
   getChildContext() {
     return {
       api : this.props.api
@@ -21,4 +21,4 @@ ApiProvider.childContextTypes = {
   api : React.PropTypes.object
 };
 
-module.exports =  ApiProvider;
+export default ApiProvider;

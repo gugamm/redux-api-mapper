@@ -1,4 +1,4 @@
-const FETCH_STATES = require('./fetch-states');
+import FetchStates from './fetch-states';
 
 /**
  * State to action is a helper function to create a function that maps the state of the request into an action.
@@ -12,12 +12,12 @@ const FETCH_STATES = require('./fetch-states');
 function stateToAction(fetchStarted, fetchCompleted, fetchError, fetchCancelled) {
   return function (state) {
     switch(state) {
-      case FETCH_STATES.FETCH_STARTED : return fetchStarted;
-      case FETCH_STATES.FETCH_COMPLETED : return fetchCompleted;
-      case FETCH_STATES.FETCH_ERROR : return fetchError;
-      case FETCH_STATES.FETCH_CANCELLED : return fetchCancelled;
+      case FetchStates.FETCH_STARTED   : return fetchStarted;
+      case FetchStates.FETCH_COMPLETED : return fetchCompleted;
+      case FetchStates.FETCH_ERROR     : return fetchError;
+      case FetchStates.FETCH_CANCELLED : return fetchCancelled;
     }
   }
 };
 
-module.exports = stateToAction;
+export default stateToAction;
