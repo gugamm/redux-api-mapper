@@ -1,4 +1,5 @@
 import FetchStates from './fetch-states';
+import HttpMethods from './http-methods';
 
 /**
  * Build a function that receive parameters, headers, body and options and dispatch a request to the correct http layer method
@@ -13,7 +14,7 @@ export function buildCallMethod(mapper, resource, endPoint) {
   return function (params, headers, body, options) {
     const { httpLayer, httpResponseHandler } = mapper;
     const path = applyParamsToPath(resource.path + endPoint.path, params);
-    const method = (endPoint.method)? endPoint.method.toUpperCase() : HTTP_METHODS.GET;
+    const method = (endPoint.method)? endPoint.method.toUpperCase() : HttpMethods.GET;
     const headersBuilt = Object.assign({}, mapper.headers, resource.headers, endPoint.headers, headers);
     const request = buildRequest(mapper.host + path, path, params, headersBuilt, body, options);
 
@@ -38,8 +39,8 @@ export function dispatchRequest(method, httpResponseHandler, store, action, http
 
   let lMethod = method ? method.toLowerCase() : 'get';
 
-  if (httpLayer[method]) //method is implemented
-    return httpResponseHandler(stateDispatcher, httpLayer[method](request));
+  if (httpLayer[lMethod]) //method is implemented
+    return httpResponseHandler(stateDispatcher, httpLayer[lMethod](request));
   else //method is not implemented
     throw new Error(`Method ${lMethod} is not supported by http-layer`);
 }
