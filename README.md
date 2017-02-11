@@ -10,7 +10,7 @@ Many react/redux applications interact with an api. To solve this problem with r
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a config definition and returning an object with methods for accessing your api. It will automatically dispatch actions for the store based on the state of the request.
 
-## Documentation (I'm writing this...)
+## Documentation
 
 * [Introduction](/docs/introduction.md)
 * [Config shape](/docs/config.md)
