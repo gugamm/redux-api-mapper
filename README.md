@@ -68,7 +68,7 @@ One thing to notice here is the `http-layer` and `http-response-handler` paramet
 
 ## Todos
 
-- [ ] Add middleware support
+- [ ] Add better "options" support
 - [ ] Write tests
 - [ ] Add more http-layers
 - [ ] Better documentation
