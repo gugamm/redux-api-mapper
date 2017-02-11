@@ -23,7 +23,7 @@ Lets create a http-layer that will use fetch and only handle "get" requests.
 //Remember: An http-layer is just an object with the http-methods
 
 const myHttpLayer = {
-   //All methods receive a request an can return anything
+   //All methods receive a request and can return anything
     get : function (request) {
         return fetch(request.fullPath); //we are returning a promise
     }
@@ -42,9 +42,9 @@ const promiseHandler = function (stateDispatcher, httpLayerReturn) {
 
 This handler will subscribe to the promise. Once the promise resolve, it will parse the response into json and dispatch the ``FETCH_COMPLETED`` state with the response data. Redux-Api-Mapper will dispatch the corresponding action for FETCH_COMPLETED (see in the config file how to do this), with the ``data`` as a payload to that action.
 
-<b>And thats it! You've just created an http-layer and a response handler. Now you can pass them as a parameter to ``createMapper`` and your mapper will you your http-layer<b/>
+<b>And thats it! You've just created an http-layer and a response handler. Now you can pass them as a parameter to ``createMapper`` and your mapper will you your http-layer</b>
 
 ### Caveats
-*There are some features we didn't covered here yet. That's because we are still in early release, but http-layers can receive aditional parameters for each request inside the "options" property of the request. You can implement any kind of behavior you want: like middlewares, automatically parse your data, or anything.
-*We gonna cover these features soon. You will be able to set default options in your config definition, so you can pass parameters to your http-layer in a easy manner.
-*At the moment you can only pass options as the 4th parameter of the "call" method
+* There are some features we didn't covered here yet. That's because we are still in early release, but http-layers can receive aditional parameters for each request inside the "options" property of the request. You can implement any kind of behavior you want: like middlewares, automatically parse your data, or anything.
+* We gonna cover these features soon. You will be able to set default options in your config definition, so you can pass parameters to your http-layer in a easy manner.
+* At the moment you can only pass options as the 4th parameter of the "call" method
