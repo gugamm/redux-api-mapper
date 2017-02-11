@@ -15,7 +15,7 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 * [Introduction](/docs/introduction.md)
 * [Config shape](/docs/config.md)
 * [Http-Layers](/docs/http-layers.md)
-* [ApiProvider and apiConnect](/docs/provider.md)
+* [ApiProvider and apiConnect](/docs/api-provider.md)
 
 ## Install
 
