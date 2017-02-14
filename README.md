@@ -64,7 +64,7 @@ api.Repos.userRepos.call({username : 'gugamm'});
 
 This will initialize your request, dispatch the "FETCH" action to your store. Once it completes, it will dispatch the "FETCH_COMPLETE" action with the response.
 
-One thing to notice here is the `http-layer` and `http-response-handler` parameters. This library is isomorphic and was made to work with any kind of http library out there(fetch, axios, jquery...). For this to work, when creating a mapper, you must specify an object to handle the http request and an function to handle the result that the http-layer will produce (Promise, Observables...) and dispatch new state, so the library can dispatch the correct actions to your store. More on this in the documentation. 
+One thing to notice here is the `http-layer` and `http-response-handler` parameters. This library is isomorphic and was made to work with any kind of http library out there(fetch, axios, jquery...). For this to work, when creating a mapper, you <b>can(but not need to)</b> specify an object to handle the http request and an function to handle the result that the http-layer will produce (Promise, Observables...) and dispatch new state, so the library can dispatch the correct actions to your store. If you don't provide an http-layer or a http-layer response handler, the library will use one by defaul. 
 
 ## Todos
 
