@@ -1,3 +1,9 @@
+## 1.0.8 (02/14/2017)
+
+### changes
+
+* stateToAction can receive null as parameter, so action will not be dispatched
+
 ## 1.0.7 (02/11/2017)
 
 ### Breaking changes
