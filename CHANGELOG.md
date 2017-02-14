@@ -1,3 +1,10 @@
+## 1.0.9 (02/14/2017)
+
+### changes
+
+* Fix null and undefined check bug in version 1.0.8
+
+
 ## 1.0.8 (02/14/2017)
 
 ### changes

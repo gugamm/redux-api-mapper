@@ -55,12 +55,12 @@ export function buildStateDispatcher(storeDispatcher, action) {
     let actionResult = action(state);
     let actionObj;
 
-    if (typeof actionResult === "function")
+    if (actionResult === null || actionResult === undefined)
+      return;
+    else if (typeof actionResult === "function")
       actionObj = actionResult(payload);
     else if (typeof actionResult === "object")
       actionObj = Object.assign({}, actionResult, {payload});
-    else if (actionResult === null || actionResult === undefined)
-      return;
     else
       throw new Error('Action mapper is not returning an action creator or action object. Cannot dispatch action to redux.');
 
