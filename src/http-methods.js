@@ -1,10 +1,10 @@
 const HttpMethods = {
-  GET : 'GET',
-  PUT : 'PUT',
-  POST : 'POST',
-  HEAD : 'HEAD',
+  GET    : 'GET',
+  PUT    : 'PUT',
+  POST   : 'POST',
+  HEAD   : 'HEAD',
   DELETE : 'DELETE',
-  PATCH : 'PATCH'
+  PATCH  : 'PATCH'
 };
 
 export default HttpMethods;

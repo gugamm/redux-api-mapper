@@ -1,4 +1,3 @@
-import FetchStates from './fetch-states';
 import HttpMethods from './http-methods';
 
 /**
@@ -11,36 +10,32 @@ import HttpMethods from './http-methods';
  * @returns {Function}
  */
 export function buildCallMethod(mapper, resource, endPoint) {
-  return function (params, headers, body, options) {
-    const { httpLayer, httpResponseHandler } = mapper;
-    const path = applyParamsToPath(resource.path + endPoint.path, params);
-    const method = (endPoint.method)? endPoint.method.toUpperCase() : HttpMethods.GET;
-    const headersBuilt = Object.assign({}, mapper.headers, resource.headers, endPoint.headers, headers);
-    const request = buildRequest(mapper.host + path, path, params, headersBuilt, body, options);
+  return function (params, reqHeaders, reqBody, reqOptions) {
+    const { httpLayer } = mapper;
+    const path          = applyParamsToPath(resource.path + endPoint.path, params);
+    const method        = (endPoint.method)? endPoint.method.toUpperCase() : HttpMethods.GET;
+    const headersBuilt  = httpLayer.mergeHeaders ? httpLayer.mergeHeaders(mapper.headers, resource.headers, endPoint.headers, reqHeaders) : Object.assign({}, mapper.headers, resource.headers, endPoint.headers, reqHeaders);
+    const optionsBuilt  = httpLayer.mergeOptions ? httpLayer.mergeOptions(mapper.options, resource.options, endPoint.options, reqOptions) : Object.assign({}, mapper.options, resource.options, endPoint.options, reqOptions);
+    const request       = buildRequest(mapper.host + path, path, params, headersBuilt, reqBody, optionsBuilt);
 
-    return dispatchRequest(method, httpResponseHandler, mapper.store, endPoint.action, httpLayer, request);
+    return dispatchRequest(method, mapper.store, endPoint.action, httpLayer, request);
   };
 };
 
 /**
- * This function dispatch a pre-fetch action in the store and call the correct http layer method
+ * This function build a stateDispatcher and call the correct http layer method
  * @param {String} method
- * @param {Function} httpResponseHandler
  * @param {Object} store
  * @param {(Object|Function)} action
  * @param {Object} httpLayer
  * @param {Object} request
  */
-export function dispatchRequest(method, httpResponseHandler, store, action, httpLayer, request) {
+export function dispatchRequest(method, store, action, httpLayer, request) {
   let stateDispatcher = buildStateDispatcher(store.dispatch, action);
-
-  //dispatch pre-fetch action here
-  stateDispatcher(FetchStates.FETCH_STARTED);
-
   let lMethod = method ? method.toLowerCase() : 'get';
 
   if (httpLayer[lMethod]) //method is implemented
-    return httpResponseHandler(stateDispatcher, httpLayer[lMethod](request));
+    return httpLayer[lMethod](stateDispatcher, request);
   else //method is not implemented
     throw new Error(`Method ${lMethod} is not supported by http-layer`);
 }
