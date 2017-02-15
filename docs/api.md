@@ -23,10 +23,10 @@
 ##### `store` (required)
 The redux store object
 
-##### `config` (require)
+##### `config` (required)
 The config object, defining resources, endPoints...
 
-#### `http-layer` (optional)
+##### `http-layer` (optional)
 A custom http-layer implementation. If not provided, the DefaultHttpLayer will be used
 
 ```js
@@ -116,7 +116,7 @@ This is a helper function to add a resource to an already created api mapper. Th
 ##### `mapper` (required)
 The mapper object
 
-##### `resource` (require)
+##### `resource` (required)
 The resource to be added to the mapper
 
 ```js
