@@ -10,12 +10,14 @@ Many react/redux applications interact with an api. To solve this problem with r
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a config definition and returning an object with methods for accessing your api. It will automatically dispatch actions for the store based on the state of the request.
 
-## Documentation
+## Documentation (updated to version 1.1.0)
 
 * [Introduction](/docs/introduction.md)
 * [Config shape](/docs/config.md)
 * [Http-Layers](/docs/http-layers.md)
 * [ApiProvider and apiConnect](/docs/api-provider.md)
+* [Api Docs](/docs/api.md)
+* [Code Splitting](/docs/code-splitting.md)
 
 ## Install
 
@@ -56,7 +58,7 @@ import { store } from './yourstorefile';
 const config = /*...*/
 
 // Create your api mapper
-const api = createMapper(store, config, /* http-layer */, /* http-response-handler */);
+const api = createMapper(store, config, /* http-layer */);
 
 // Use your api
 api.Repos.userRepos.call({username : 'gugamm'});
@@ -64,11 +66,12 @@ api.Repos.userRepos.call({username : 'gugamm'});
 
 This will initialize your request, dispatch the "FETCH" action to your store. Once it completes, it will dispatch the "FETCH_COMPLETE" action with the response.
 
-One thing to notice here is the `http-layer` and `http-response-handler` parameters. This library is isomorphic and was made to work with any kind of http library out there(fetch, axios, jquery...). For this to work, when creating a mapper, you <b>can(but not need to)</b> specify an object to handle the http request and an function to handle the result that the http-layer will produce (Promise, Observables...) and dispatch new state, so the library can dispatch the correct actions to your store. If you don't provide an http-layer or a http-layer response handler, the library will use one by defaul. 
+One thing to notice here is the `http-layer`parameter. This library is isomorphic and was made to work with any kind of http library out there(fetch, axios, jquery...). For this to work, when creating a mapper, you <b>can(but not need to)</b> specify an object to handle the http request and dispatch new state, so the library can dispatch the correct actions to your store. <b>If you don't provide an http-layer, the library will use one by default.</b> 
 
 ## Todos
 
-- [ ] Add better "options" support
+- [x] Add better "options" support
 - [ ] Write tests
-- [ ] Add more http-layers
-- [ ] Better documentation
+- [x] Add more http-layers (improved the default http-layer)
+- [x] Better documentation
+- [ ] Add support for mapperReducer (so we don't need to create reducers anymore)

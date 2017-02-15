@@ -1,6 +1,6 @@
-# Http-Layers and Response Handlers
+# Http-Layers
 
-This section will guide you to create your own Http-Layer and Response Handlers. Keep in mind that Redux-Api-Mapper has some default Http-Layers. If you don't specify a http layer when creating the mapper with ``createMapper``, the default http-layer will be used.
+This section will guide you to create your own Http-Layer. Keep in mind that Redux-Api-Mapper has a default Http-Layer. If you don't specify a http layer when creating the mapper with ``createMapper``, the default http-layer will be used.
 
 ### What is a Http-Layer
 
@@ -8,12 +8,7 @@ An ``http-layer`` is a plain javascript object with just a couple of few methods
 
 ### Why do we need a http-layer
 
-This library is very flexible and tries to attend any implementation you need. When you do a request, you can be in a browser, in a server or anywhere. The http-layer is an object implementing all the http-methods. So when a call is made, the library will call the correct http-method in the http-layer. The http-layer should make the request. The problem is that the http-layer can return anything. Could be a Promise, an Observable, an XmlHttpRequest object... Anything. To handle this return value we gonna need a Response Handler.
-
-### Response Handler
-
-A response handler is a function that accept two arguments: ``stateDispatcher`` and ``httpLayerReturn``. This function will handle the return from the httpLayer and will dispatch the new state of the request. If the request is completed, we can dispatch a FETCH_COMPLETED. If something went wrong, we can dispatch a FETCH_ERROR.
-Redux-Api-Mapper will then dispatch the correct action for the redux store based on the new state of the request.
+This library is very flexible and tries to attend any implementation you need. When you do a request, you can be in a browser, in a server or anywhere. The http-layer is an object implementing all the http-methods. So when a call is made, the library will call the correct http-method in the http-layer. The http-layer should make the request. Since he is responsible for making the request, he can also be responsible for dispatching the state of the request(we will see that in action).
 
 ### Lets create a Http-Layer
 
@@ -23,28 +18,52 @@ Lets create a http-layer that will use fetch and only handle "get" requests.
 //Remember: An http-layer is just an object with the http-methods
 
 const myHttpLayer = {
-   //All methods receive a request and can return anything
-    get : function (request) {
-        return fetch(request.fullPath); //we are returning a promise
+   //All methods receive a stateDispatcher and a request and can return anything(the return will be the return of the call function)
+    get : function (stateDispatcher, request) {
+        stateDispatcher(FETCH_STARTED);
+        fetch(request.fullPath).then(response => stateDispatcher(FETCH_COMPLETED, response)); 
     }
 }
 ```
-And that's it. We've created our own Http-Handler. Whenever we make a "get" request. This method will be called. Now we need something to handle this promise that we are returning. Lets create a Response Handler
+And that's it. We've created our own Http-Handler. Whenever we make a "get" request. This method will be called. 
+
+### Accepting options
+
+This is an advanced feature and it's where things start to get cool. We can chose to support any options we want. Supose we want to extend our simple http-layer to suport an option that will parse the response after the response has been received.
+
+So the option could be : parseResponse(response) => newResponse
 
 ```js
-//Remember : A response handler is a function that receive a stateDispatcher and the httpLayerReturn
-
-const promiseHandler = function (stateDispatcher, httpLayerReturn) {
-    httpLayerReturn.then(response => response.json()).then(data => stateDispatcher(FETCH_STATES.FETCH_COMPLETED, data)); //we are not handling errors here, but we could
+const myHttpLayer = {
+   //All methods receive a stateDispatcher and a request and can return anything(the return will be the return of the call function)
+    get : function (stateDispatcher, request) {
+      //Here we are receiving the parseResponse options
+      var parser = (request.options.parseResponse) || ((response) => response);
+      stateDispatcher(FETCH_STARTED);
+        fetch(request.fullPath).then(response => stateDispatcher(FETCH_COMPLETED, parse(response))); 
+    }
 }
-
 ```
 
-This handler will subscribe to the promise. Once the promise resolve, it will parse the response into json and dispatch the ``FETCH_COMPLETED`` state with the response data. Redux-Api-Mapper will dispatch the corresponding action for FETCH_COMPLETED (see in the config file how to do this), with the ``data`` as a payload to that action.
+<b>That's it! You can implement any options you would like to. For example the default http-layer support ``beforeRequest``, ``afterResponse``, ``parseResponse``, ``parseBody``.</b>
 
-<b>And thats it! You've just created an http-layer and a response handler. Now you can pass them as a parameter to ``createMapper`` and your mapper will you your http-layer</b>
+### Merge options and merge headers
 
-### Caveats
-* There are some features we didn't covered here yet. That's because we are still in early release, but http-layers can receive aditional parameters for each request inside the "options" property of the request. You can implement any kind of behavior you want: like middlewares, automatically parse your data, or anything.
-* We gonna cover these features soon. You will be able to set default options in your config definition, so you can pass parameters to your http-layer in a easy manner.
-* At the moment you can only pass options as the 4th parameter of the "call" method
+By default, the redux-api-mapper will merge the configuration from outsite to inside, which means that everything we define in a endPoint, would override the definitions in a Resource for example.
+
+We can change this behavior by implementing ``mergeOptions`` and ``mergeHeaders`` in our layers.
+
+```js
+const myHttpLayer = {
+  mergeOptions : function (mapperOptions, resourceOptions, endPointOptions, requestOptions) {
+      return Object.assign({}, requestOptions, endPointOptions, resourceOptions, mapperOptions);
+    },
+  mergeHeaders : function (mapperHeaders, resourceHeaders, endPointHeaders, requestHeaders) {
+     return Object.assign({}, requestHeaders, endPointHeaders, resourceHeaders, mapperHeaders);
+  }   
+}
+```
+
+Here we changed how the merge works. We are merging from inside to outside. You can do anything here. This is very powerful. 
+
+For example, if the user define ``parseResponse`` at the resource and the endPoint, we could, instead of overriding, chain these parses. This is useful for logging for example.

@@ -6,8 +6,14 @@ This section will provide you the shape of the config object. Here we will list 
 var config = {
   host : 'http://somehost.com/api',
   headers : {
-    'Authorization' : 'your token'
+    'Authorization' : 'your token',
     'Content-type' : 'application/json'
+  },
+  options : { //these options are supported by the default http-layer.
+    beforeRequest : (request) => {},
+    afterResponse : (response) => JSON.parse(response.data),
+    parseBody     : (body) => JSON.stringify(body),
+    parseResponse : (response) => JSON.parse(response.data)
   },
   resources : [
     {
@@ -15,6 +21,12 @@ var config = {
       path : '/users',
       headers : {
         'Some-Fancy-Header' : 'some-fancy-header'
+      },
+      options : { //these options are supported by the default http-layer.
+        beforeRequest : (request) => {},
+        afterResponse : (response) => JSON.parse(response.data),
+        parseBody     : (body) => JSON.stringify(body),
+        parseResponse : (response) => JSON.parse(response.data)
       },
       endPoints : [
         {
@@ -24,6 +36,12 @@ var config = {
           action : stateToProps(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
           headers : {
             'Another-Fancy-Header' : 'fancy-header'
+          },
+          options : { //these options are supported by the default http-layer.
+            beforeRequest : (request) => {},
+            afterResponse : (response) => JSON.parse(response.data),
+            parseBody     : (body) => JSON.stringify(body),
+            parseResponse : (response) => JSON.parse(response.data)
           }
         },
         {
