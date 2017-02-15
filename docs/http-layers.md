@@ -8,7 +8,7 @@ An ``http-layer`` is a plain javascript object with just a couple of few methods
 
 ### Why do we need a http-layer
 
-This library is very flexible and tries to attend any implementation you need. When you do a request, you can be in a browser, in a server or anywhere. The http-layer is an object implementing all the http-methods. So when a call is made, the library will call the correct http-method in the http-layer. The http-layer should make the request. Since he is responsible for making the request, he can also be responsible for dispatching the state of the request(we will see that in action).
+This library is very flexible and tries to attend any implementation you need. When you do a request, you can be in a browser, in a server or anywhere. When a call is made, the library will call the correct http-method in the http-layer. The http-layer should make the request and dispatch the state of the request(we will see that in action).
 
 ### Lets create a Http-Layer
 
