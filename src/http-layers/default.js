@@ -15,7 +15,9 @@ import FetchStates from '../fetch-states';
  */
 export function createDefaultHttpLayer() {
   function doHttpRequest(stateDisptacher, method, request) {
+    let requestCompleted = false;
     function loadHandler() {
+      requestCompleted = true;
       let afterResponse  = request.options && request.options.afterResponse; //(response) => response
       let responseParse  = request.options && request.options.responseParse; //(response) => any
       const xhr          = this;
@@ -61,8 +63,10 @@ export function createDefaultHttpLayer() {
 
     return (payload) => {
       xhr.removeEventListener('load', loadHandler);
-      xhr.abort();
-      stateDisptacher(FetchStates.FETCH_CANCELLED, payload);
+      if (!requestCompleted) {
+        xhr.abort();
+        stateDisptacher(FetchStates.FETCH_CANCELLED, payload);
+      }
     };
   }
 
