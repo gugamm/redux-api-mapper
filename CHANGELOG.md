@@ -1,4 +1,4 @@
-## 1.1.0 (still testing)
+## 1.1.0 (02/15/2017)
 
 ### Breaking changes
 
