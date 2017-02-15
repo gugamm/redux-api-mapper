@@ -29,6 +29,7 @@ export function createDefaultHttpLayer() {
         method            : method,
         ok: (xhr.status >= 200 && xhr.status <= 299)
       };
+      let responseOk  = response.ok;
 
       let newResponse = afterResponse && afterResponse(response);
 
@@ -37,7 +38,7 @@ export function createDefaultHttpLayer() {
 
       response = responseParse ? responseParse(response) : response;
 
-      if (response.ok)
+      if (responseOk)
         stateDisptacher(FetchStates.FETCH_COMPLETED, response);
       else
         stateDisptacher(FetchStates.FETCH_ERROR, response);
