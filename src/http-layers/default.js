@@ -60,7 +60,7 @@ export function createDefaultHttpLayer() {
     xhr.send(bodyParse ? bodyParse(request.body) : request.body);
 
     return (payload) => {
-      xhr.removeEventListener('load');
+      xhr.removeEventListener('load', loadHandler);
       xhr.abort();
       stateDisptacher(FetchStates.FETCH_CANCELLED, payload);
     };
