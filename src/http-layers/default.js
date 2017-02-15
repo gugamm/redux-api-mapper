@@ -33,7 +33,6 @@ export function createDefaultHttpLayer() {
         ok: (xhr.status >= 200 && xhr.status <= 299)
       };
       let responseOk  = response.ok;
-
       let newResponse = afterResponse && afterResponse(response);
 
       if (newResponse)
@@ -57,7 +56,7 @@ export function createDefaultHttpLayer() {
       xhr.setRequestHeader(hKey, request.headers[hKey]);
 
     if (beforeRequest)
-      beforeRequest(request);
+      beforeRequest(Object.assign({},request));
 
     stateDisptacher(FetchStates.FETCH_STARTED);
     xhr.send(bodyParse ? bodyParse(request.body) : request.body);
