@@ -68,22 +68,22 @@ export function createDefaultHttpLayer() {
 
   return {
     get : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.GET, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.GET, request);
     },
     put : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.PUT, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.PUT, request);
     },
     post : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.POST, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.POST, request);
     },
     head : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.HEAD, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.HEAD, request);
     },
     delete : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.DELETE, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.DELETE, request);
     },
     patch : function (stateDisptacher, request) {
-      doHttpRequest(stateDisptacher, HttpMethods.PATCH, request);
+      return doHttpRequest(stateDisptacher, HttpMethods.PATCH, request);
     }
   }
 };
