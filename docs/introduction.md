@@ -14,6 +14,11 @@ If you come from redux. You've probably have used ``<Provider />`` before. This 
 
 ``apiConnect`` is the function used to connect your components to api methods. It's very easy to use. Just as ``connect`` from react-redux is.
 
+
+### States of a request
+
+A request can be in 4 states : ``Starting``, ``Completed``, ``Error``, ``Cancelled``. This library support all of these states. The default http-layer also helps you cancel an http-request after it has been started.
+
 <b>Thats it! Now you know all hard stuff from redux-api-mapper.</b>
 
 Go to the next section to learn about the api, build your own http-layer and more!
