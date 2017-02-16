@@ -6,7 +6,7 @@ This section will provide you the shape of the config object. Here we will list 
 var config = {
   host : 'http://somehost.com/api',
   headers : {
-    'Authorization' : 'your token',
+    'Authorization' : () => window.localStorage.getItem('token'),
     'Content-type' : 'application/json'
   },
   options : { //these options are supported by the default http-layer.

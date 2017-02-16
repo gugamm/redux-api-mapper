@@ -1,3 +1,9 @@
+## 1.1.1 (02/16/2017)
+
+### Features
+
+* Headers can have a function as a value. The function will be called on merge before doing the request.
+
 ## 1.1.0 (02/15/2017)
 
 ### Breaking changes
