@@ -78,10 +78,10 @@ A function that receive the request object and do anything. The return will be i
 ### `afterResponse`
 A function that receive an response object and <b>CAN(but not required to)</b> parse the response into something else. Called before calling FETCH_COMPLETE or FETCH_ERROR
 
-### `parseBody`
+### `bodyParse`
 A function used to parse the body that will be send to the request. Receive a body(anything) and return a new body(anything)
 
-### `parseResponse`
+### `responseParse`
 A function that receive an response object and <b>MUST(required to)</b> parse the response into something else. Called before calling FETCH_COMPLETE or FETCH_ERROR
 
 ```js
