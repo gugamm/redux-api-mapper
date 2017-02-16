@@ -90,8 +90,8 @@ const config = {
   options : {
     beforeRequest : (request)  => console.log(request),
     afterResponse : (response) => console.log(response),
-    parseBody     : (body)     => JSON.stringify(body),
-    parseResponse : (response) => JSON.parse(response.data)
+    bodyParse     : (body)     => JSON.stringify(body),
+    responseParse : (response) => JSON.parse(response.data)
   }
 }
 ```
