@@ -23,10 +23,10 @@
 ##### `store` (required)
 The redux store object
 
-##### `config` (require)
+##### `config` (required)
 The config object, defining resources, endPoints...
 
-#### `http-layer` (optional)
+##### `http-layer` (optional)
 A custom http-layer implementation. If not provided, the DefaultHttpLayer will be used
 
 ```js
@@ -38,7 +38,9 @@ const api = createMapper(store, config);
 ```
 
 ### `call`
-After creating a mapper, redux-api-mapper will add a "call" method to your endPoints. You can access by : mapper.<Resource-Name>.<EndPoint-Name>.call(/**/)
+After creating a mapper, redux-api-mapper will add a "call" method to your endPoints. You can access by : mapper.[Resource-Name].[EndPoint-Name].call()
+
+This function return a function that can be used to cancel the request.
 
 ##### `params` (optional)
 An object with key/value. If the key is in the path, then it will be used to build the url. If it's not, then it will be used to build the querysting.
@@ -55,6 +57,14 @@ Usually an object. The properties that you can pass depend on the http-layer you
 ```js
 api.Users.getUsers.call({count : 10}, {'Content-Type' : 'application/json'});
 api.Auth.signin.call(null, {'Content-Type' : 'application/json'}, {username : 'blabla', password : 'blablum'});
+
+//Cancelling a request
+const cancel = api.Users.getUsers.call({count : 10}, {'Content-Type' : 'application/json'});
+cancel('Reason for cancelling'); //This is passed as a payload to the CANCELLED action
+
+const cancel = api.Auth.signin.call(null, {'Content-Type' : 'application/json'}, {username : 'blabla', password : 'blablum'});
+cancel({reason : 'Because I want'}); //This is passed as a payload to the CANCELLED action
+
 ```
 
 ## DefaultHttpLayer
@@ -116,7 +126,7 @@ This is a helper function to add a resource to an already created api mapper. Th
 ##### `mapper` (required)
 The mapper object
 
-##### `resource` (require)
+##### `resource` (required)
 The resource to be added to the mapper
 
 ```js
