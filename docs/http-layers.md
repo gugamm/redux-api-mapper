@@ -45,7 +45,7 @@ const myHttpLayer = {
 }
 ```
 
-<b>That's it! You can implement any options you would like to. For example the default http-layer support ``beforeRequest``, ``afterResponse``, ``parseResponse``, ``parseBody``.</b>
+<b>That's it! You can implement any options you would like to. For example the default http-layer support ``beforeRequest``, ``afterResponse``, ``responseParse``, ``bodyParse``.</b>
 
 ### Merge options and merge headers
 
