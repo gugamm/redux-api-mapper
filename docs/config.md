@@ -12,8 +12,8 @@ var config = {
   options : { //these options are supported by the default http-layer.
     beforeRequest : (request) => {},
     afterResponse : (response) => JSON.parse(response.data),
-    parseBody     : (body) => JSON.stringify(body),
-    parseResponse : (response) => JSON.parse(response.data)
+    bodyParse     : (body) => JSON.stringify(body),
+    responseParse : (response) => JSON.parse(response.data)
   },
   resources : [
     {
@@ -25,8 +25,8 @@ var config = {
       options : { //these options are supported by the default http-layer.
         beforeRequest : (request) => {},
         afterResponse : (response) => JSON.parse(response.data),
-        parseBody     : (body) => JSON.stringify(body),
-        parseResponse : (response) => JSON.parse(response.data)
+        bodyParse     : (body) => JSON.stringify(body),
+        responseParse : (response) => JSON.parse(response.data)
       },
       endPoints : [
         {
@@ -40,8 +40,8 @@ var config = {
           options : { //these options are supported by the default http-layer.
             beforeRequest : (request) => {},
             afterResponse : (response) => JSON.parse(response.data),
-            parseBody     : (body) => JSON.stringify(body),
-            parseResponse : (response) => JSON.parse(response.data)
+            bodyParse     : (body) => JSON.stringify(body),
+            responseParse : (response) => JSON.parse(response.data)
           }
         },
         {
