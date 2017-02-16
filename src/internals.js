@@ -47,7 +47,7 @@ function mergeHeaders(mapperHeaders, resourceHeaders, endPointHeaders, requestHe
       }
       else
         if (headers[header])
-          newHeaders[headers] = headers[header];
+          newHeaders[header] = headers[header];
     }
 
     return newHeaders;
