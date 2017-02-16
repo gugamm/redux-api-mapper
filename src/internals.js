@@ -14,13 +14,52 @@ export function buildCallMethod(mapper, resource, endPoint) {
     const { httpLayer } = mapper;
     const path          = applyParamsToPath(resource.path + endPoint.path, params);
     const method        = (endPoint.method)? endPoint.method.toUpperCase() : HttpMethods.GET;
-    const headersBuilt  = httpLayer.mergeHeaders ? httpLayer.mergeHeaders(mapper.headers, resource.headers, endPoint.headers, reqHeaders) : Object.assign({}, mapper.headers, resource.headers, endPoint.headers, reqHeaders);
+    const headersBuilt  = httpLayer.mergeHeaders ? httpLayer.mergeHeaders(mapper.headers, resource.headers, endPoint.headers, reqHeaders) : mergeHeaders(mapper.headers, resource.headers, endPoint.headers, reqHeaders);
     const optionsBuilt  = httpLayer.mergeOptions ? httpLayer.mergeOptions(mapper.options, resource.options, endPoint.options, reqOptions) : Object.assign({}, mapper.options, resource.options, endPoint.options, reqOptions);
     const request       = buildRequest(mapper.host + path, path, params, headersBuilt, reqBody, optionsBuilt);
 
     return dispatchRequest(method, mapper.store, endPoint.action, httpLayer, request);
   };
 };
+
+/**
+ * Default implementation of merge headers. It also add support for functions, so a header value can be a function that will be called on merge
+ * If the value or the function return null or undefined the header is not added to the merged headers object
+ * @param mapperHeaders - Headers object
+ * @param resourceHeaders - Headers object
+ * @param endPointHeaders - Headers object
+ * @param requestHeaders - Headers object
+ * @returns {*} - New headers object
+ */
+function mergeHeaders(mapperHeaders, resourceHeaders, endPointHeaders, requestHeaders) {
+  function headersToPlainObject(headers) {
+    if (!headers)
+      return null;
+
+    let newHeaders = {};
+    let hValue;
+
+    for (let header in headers) {
+      if (typeof headers[header] === 'function') {
+        hValue = headers[header]();
+        if (hValue !== null && hValue !== undefined)
+          newHeaders[header] = hValue;
+      }
+      else
+        if (headers[header])
+          newHeaders[headers] = headers[header];
+    }
+
+    return newHeaders;
+  }
+
+  return Object.assign({},
+    headersToPlainObject(mapperHeaders),
+    headersToPlainObject(resourceHeaders),
+    headersToPlainObject(endPointHeaders),
+    headersToPlainObject(requestHeaders)
+  );
+}
 
 /**
  * This function build a stateDispatcher and call the correct http layer method
