@@ -15,6 +15,7 @@
 - [Utilities](#utilities)
   - [`addResourceToMapper`](#addResourceToMapper)
   - [`addEndPointToMapper`](#addEndPointToMapper)
+  - [`stateToAction`](#stateToAction)
 
 
 ## Mapper
@@ -156,4 +157,52 @@ import { api } from './api';
 
 //Here MyCoolResource is already in the api mapper
 addEndPointToMapper(api, MyCoolResource, MyAwesomeEndPoint);
+```
+### stateToAction
+
+This is a helper function to be used when defining a configuration. It maps a state of a request to an action(object or function) to be dispatched. In case of a function, the function will be called with a payload(response of the request) and must return an action object.
+
+##### `actionOnFetch` (optional)
+The function or object to be dispatched before a request start. It can be null if you don't want any action to be dispatched in this state
+
+##### `actionOnComplete` (optional)
+The function or object to be dispatched if the request complete with no error. It can be null if you don't want any action to be dispatched in this state
+
+##### `actionOnError` (optional)
+The function or object to be dispatched if the request complete with an error. It can be null if you don't want any action to be dispatched in this state
+
+##### `actionOnCancel` (optional)
+The function or object to be dispatched if the request is cancelled. It can be null if you don't want any action to be dispatched in this state
+
+```js
+import { stateToAction } from 'redux-api-mapper';
+
+const fetchUsers = { type : 'FETCH_USERS' };
+
+const fetchUsersComplete = (users) => {
+  return {
+    type : 'FETCH_USERS_COMPLETE',
+    payload : users
+  };
+};
+
+var config = {
+  host : /* ... */,
+  resources : [
+    {
+      name : 'Users',
+      path : '/users'
+      endPoints : [
+        {
+          name : 'getUsers',
+          path : '/',
+          options : {
+            responseParse : (response) => JSON.parse(response.data)
+          },
+          action : stateToAction(fetchUsers, fetchUsersComplete)
+        }
+      ]
+    }
+  ]
+}
 ```
