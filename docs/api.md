@@ -158,7 +158,8 @@ import { api } from './api';
 //Here MyCoolResource is already in the api mapper
 addEndPointToMapper(api, MyCoolResource, MyAwesomeEndPoint);
 ```
-### stateToAction
+
+### `stateToAction`
 
 This is a helper function to be used when defining a configuration. It maps a state of a request to an action(object or function) to be dispatched. In case of a function, the function will be called with a payload(response of the request) and must return an action object.
 
