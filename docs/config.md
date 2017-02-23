@@ -33,7 +33,7 @@ var config = {
           name : 'getUsers',
           path : '/',
           method : 'get',
-          action : stateToProps(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
+          action : stateToAction(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
           headers : {
             'Another-Fancy-Header' : 'fancy-header'
           },
@@ -48,7 +48,7 @@ var config = {
           name : 'getUser',
           path : '/{id}', //{param} -> will be handled by the library
           method : 'get', //'post', 'put', 'patch', 'delete'...
-          action : stateToProps(actionOnFetch, actionOnComplete),
+          action : stateToAction(actionOnFetch, actionOnComplete),
           headers : {
             'Another-Fancy-Header' : 'Fancy-Header'
           }
