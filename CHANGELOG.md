@@ -1,3 +1,10 @@
+## 1.1.2 (03/02/2017)
+
+### Features
+
+* apiProvider pass the api and ownProps to the mapper function
+* Default http-layer accept both "parseResponse" or "responseParse" and "bodyParse" or "parseBody"
+
 ## 1.1.1 (02/16/2017)
 
 ### Features
