@@ -3,14 +3,27 @@
  * @param {Object} config - An object defining api mapper
  */
 function createMockMapper(config) {
-  let mockMapper = {};
+  let mockMapper = {
+    reset : function () {
+      config.resources.forEach(resource => {
+        config[resource.name].reset();
+      });
+    }
+  };
+
   config.resources.forEach(resource => {
     addMockResource(mockMapper, resource);
   });
 }
 
 function addMockResource(mapper, resource) {
-  mapper[resource.name] = {};
+  mapper[resource.name] = {
+    reset : function () {
+      resource.endPoints.forEach(endPoint => {
+        mapper[resource.name][endPoint.name].reset();
+      });
+    }
+  };
 
   resource.endPoints.forEach(endPoint => {
     addMockEndPoint(mapper,resource,endPoint);
@@ -57,7 +70,7 @@ function addMockEndPoint(mapper, resource, endPoint) {
     getMockData : function () {
       return mockData;
     },
-    resetMock : function () {
+    reset : function () {
       mockData = {
         called : false,
         cancelled : false,
