@@ -19,7 +19,7 @@ Now that we've provided our api object, we can connect to it. Lets create a ``Us
 class UserList extends Component {
     componentDidMount() {
         //do the api call
-        this.props.Users.getUsers();
+        this.props.Users.getUsers.call();
     }
 
     render() {

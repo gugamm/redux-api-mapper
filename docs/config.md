@@ -12,8 +12,8 @@ var config = {
   options : { //these options are supported by the default http-layer.
     beforeRequest : (request) => {},
     afterResponse : (response) => JSON.parse(response.data),
-    parseBody     : (body) => JSON.stringify(body),
-    parseResponse : (response) => JSON.parse(response.data)
+    bodyParse     : (body) => JSON.stringify(body),
+    responseParse : (response) => JSON.parse(response.data)
   },
   resources : [
     {
@@ -25,30 +25,30 @@ var config = {
       options : { //these options are supported by the default http-layer.
         beforeRequest : (request) => {},
         afterResponse : (response) => JSON.parse(response.data),
-        parseBody     : (body) => JSON.stringify(body),
-        parseResponse : (response) => JSON.parse(response.data)
+        bodyParse     : (body) => JSON.stringify(body),
+        responseParse : (response) => JSON.parse(response.data)
       },
       endPoints : [
         {
           name : 'getUsers',
           path : '/',
           method : 'get',
-          action : stateToProps(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
+          action : stateToAction(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
           headers : {
             'Another-Fancy-Header' : 'fancy-header'
           },
           options : { //these options are supported by the default http-layer.
             beforeRequest : (request) => {},
             afterResponse : (response) => JSON.parse(response.data),
-            parseBody     : (body) => JSON.stringify(body),
-            parseResponse : (response) => JSON.parse(response.data)
+            bodyParse     : (body) => JSON.stringify(body),
+            responseParse : (response) => JSON.parse(response.data)
           }
         },
         {
           name : 'getUser',
           path : '/{id}', //{param} -> will be handled by the library
           method : 'get', //'post', 'put', 'patch', 'delete'...
-          action : stateToProps(actionOnFetch, actionOnComplete),
+          action : stateToAction(actionOnFetch, actionOnComplete),
           headers : {
             'Another-Fancy-Header' : 'Fancy-Header'
           }

@@ -2,7 +2,7 @@
 
 This section will give you a quick example of how to use split the redux-api-mapper code.
 
-The only thing you can split is the ``config`` object. If your ``containers`` only use some resource, so you can take advantage of adding resources only when it's necessary.
+The only thing you can split is the ``config`` object. If your ``containers`` only use some resource, you can take advantage of adding resources only when it's necessary.
 
 ```js
 //suppose this react-router configuration
@@ -23,4 +23,4 @@ const router = (
 );
 ```
 
-This way, you will only require the users-resource when the user navigate to the ``/users`` page.
+This way you will only require the users-resource when the user navigate to the ``/users`` page.
