@@ -40,7 +40,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-const mapApiToProps = (api) => {
+const mapApiToProps = (api, ownProps) => {
+    //Remember : ownProps are props passed to the wrapper component
     return {
         Users : api.Users
     };
