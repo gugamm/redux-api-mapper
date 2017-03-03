@@ -18,6 +18,7 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 * [ApiProvider and apiConnect](/docs/api-provider.md)
 * [Api Docs](/docs/api.md)
 * [Code Splitting](/docs/code-splitting.md)
+* [Unit Test](/docs/unit-test.md) -- Already Implemented in v1.2.0 (no docs yet)
 
 ## Install
 
