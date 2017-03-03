@@ -6,7 +6,7 @@ function createMockMapper(config) {
   let mockMapper = {
     reset : function () {
       config.resources.forEach(resource => {
-        config[resource.name].reset();
+        mockMapper[resource.name].reset();
       });
     }
   };
@@ -14,6 +14,8 @@ function createMockMapper(config) {
   config.resources.forEach(resource => {
     addMockResource(mockMapper, resource);
   });
+
+  return mockMapper;
 }
 
 function addMockResource(mapper, resource) {
@@ -73,7 +75,9 @@ function addMockEndPoint(mapper, resource, endPoint) {
     reset : function () {
       mockData = {
         called : false,
+        calledTimes : 0,
         cancelled : false,
+        cancelledTimes : 0,
         params : {},
         reqHeaders : {},
         reqBody : {},
