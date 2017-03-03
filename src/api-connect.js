@@ -5,7 +5,7 @@ function apiConnect(apiToProps) {
     class ApiConnected extends Component {
       constructor(props, context) {
         super(props, context);
-        this.apiProps = apiToProps(context.api);
+        this.apiProps = apiToProps(context.api, {...props});
       }
 
       render() {

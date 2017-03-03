@@ -20,7 +20,7 @@ export function createDefaultHttpLayer() {
     function loadHandler() {
       requestCompleted = true;
       let afterResponse  = request.options && request.options.afterResponse; //(response) => response
-      let responseParse  = request.options && request.options.responseParse; //(response) => any
+      let responseParse  = request.options && (request.options.responseParse || request.options.parseResponse); //(response) => any
       const xhr          = this;
 
       let response    = {
@@ -33,10 +33,9 @@ export function createDefaultHttpLayer() {
         ok: (xhr.status >= 200 && xhr.status <= 299)
       };
       let responseOk  = response.ok;
-      let newResponse = afterResponse && afterResponse(response);
 
-      if (newResponse)
-        response = newResponse;
+      if (afterResponse)
+        afterResponse(response);
 
       response = responseParse ? responseParse(response) : response;
 
@@ -47,7 +46,7 @@ export function createDefaultHttpLayer() {
     };
 
     let beforeRequest  = request.options && request.options.beforeRequest; //(request)  => void
-    let bodyParse      = request.options && request.options.bodyParse;     //(body)     => body
+    let bodyParse      = request.options && (request.options.bodyParse || request.options.parseBody);     //(body)     => body
     let xhr            = new XMLHttpRequest();
 
     xhr.addEventListener('load',loadHandler);
