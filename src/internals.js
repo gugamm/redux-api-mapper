@@ -18,7 +18,7 @@ export function buildCallMethod(mapper, resource, endPoint) {
     const optionsBuilt  = httpLayer.mergeOptions ? httpLayer.mergeOptions(mapper.options, resource.options, endPoint.options, reqOptions) : Object.assign({}, mapper.options, resource.options, endPoint.options, reqOptions);
     const request       = buildRequest(mapper.host + path, path, params, headersBuilt, reqBody, optionsBuilt);
 
-    return dispatchRequest(method, mapper.store, endPoint.action, httpLayer, request);
+    return dispatchRequest(method, mapper.store, endPoint.action, httpLayer, request, mapper);
   };
 };
 
@@ -68,9 +68,10 @@ function mergeHeaders(mapperHeaders, resourceHeaders, endPointHeaders, requestHe
  * @param {(Object|Function)} action
  * @param {Object} httpLayer
  * @param {Object} request
+ * @param {Object} mapper
  */
-export function dispatchRequest(method, store, action, httpLayer, request) {
-  let stateDispatcher = buildStateDispatcher(store.dispatch, action);
+export function dispatchRequest(method, store, action, httpLayer, request, mapper) {
+  let stateDispatcher = buildStateDispatcher(store.dispatch, action, mapper);
   let lMethod = method ? method.toLowerCase() : 'get';
 
   if (httpLayer[lMethod]) //method is implemented
@@ -82,32 +83,49 @@ export function dispatchRequest(method, store, action, httpLayer, request) {
 /**
  * This is a helper function to dispatch a new action to the store based on the current state of the request
  * @param {Function} storeDispatcher - The store dispatcher function
+ * @param {Function} action - A function that maps a state into an action
+ * @param {Object} mapper - The api mapper
  * @returns {Function} - A function that dispatch a new action to the store based on the state being dispatched
  */
-export function buildStateDispatcher(storeDispatcher, action) {
-  return function (state, payload) {
-    let stateToAction = action(state);
-    let stateToActionResult;
-
-    if (stateToAction === null || stateToAction === undefined)
-      return;
-    else if (typeof stateToAction === "function")
-      stateToActionResult = stateToAction(payload, storeDispatcher);
-    else if (typeof stateToAction === "object")
-      stateToActionResult = Object.assign({}, stateToAction, {payload});
-
-    if (stateToActionResult === null || stateToActionResult === undefined)
+export function buildStateDispatcher(storeDispatcher, action, mapper) {
+  function handleDispatchAction(actionToDispatch, payload) {
+    //no action to dispatch
+    if (actionToDispatch === null || actionToDispatch === undefined)
       return;
 
-    if (Array.isArray(stateToActionResult)) {
-      stateToActionResult.forEach(actionToDispatch => {
-        storeDispatcher(actionToDispatch);
-      });
+    //Object
+    if (typeof actionToDispatch === 'object') {
+      storeDispatcher(actionToDispatch);
       return;
     }
 
-    storeDispatcher(stateToActionResult);
+    //Multiple actions to dispatch
+    if (Array.isArray(actionToDispatch)) {
+      actionToDispatch.forEach(action => handleDispatchAction(action, payload));
+      return;
+    }
+
+    let fnResult;
+
+    //Function
+    if (typeof actionToDispatch === 'function') {
+      fnResult = actionToDispatch(payload, storeDispatcher, mapper);
+
+      //no need to dispatch
+      if (fnResult === null || fnResult === undefined)
+        return;
+
+      handleDispatchAction(fnResult, payload);
+      return;
+    }
+
+    throw new Error('Cannot handle ' + typeof actionToDispatch + '. Invalid action dispatcher handler');
   }
+
+  return function (state, payload) {
+    let stateToAction = action(state);
+    handleDispatchAction(stateToAction, payload);
+  };
 }
 
 /**
