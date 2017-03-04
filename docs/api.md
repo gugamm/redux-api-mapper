@@ -11,6 +11,8 @@
   - [`responseParse`](#responseParse)
   - [`Response`](#response)
   - [`Request`](#request)   
+  
+- [RequestStateHandler](#requestStateHandler)
           
 - [Utilities](#utilities)
   - [`addResourceToMapper`](#addResourceToMapper)
@@ -121,6 +123,40 @@ This is the request object that is passed to the http-layers
 ```js
 const request = {fullPath : string, path : string, params : Object, headers : Object, body : any, options : any};
 ```
+
+## RequestStateHandler
+The request state handler is a function that handle a state of a request. The request has 4 possible states : `FETCHING`, `COMPLETED`, `ERROR` or `CANCELLED`. You can handle all of these states but you are not required to.
+A request state handler can return an Action Object, an Array of Action Object or Action Creators, or nothing(in this case we consider that the state handler has dispatched the necessary actions).
+
+```js
+
+const handleFetch = (parsedResponse, api, dispatch) => {
+  console.log('Fetching');
+  api.headers['Content-Type'] = 'application/json';
+  dispatch(coolAction());
+  
+  return [{type : EXAMPLE}, createExample, createExampleAction()];
+}
+
+const config = {
+  host : 'http://localhost/api',
+  resources : [
+    {
+      name : 'Users',
+      path : '/',
+      endPoints : [
+        {
+          name : 'getUsers',
+          path : '/',
+          // DEFINE STATE HANDLERS HERE
+          action : stateToAction(handleFetch, handleComplete, handleError, handleCancelled)
+        }
+      ]
+    }
+  ]
+}
+
+``` 
 
 ## Utilities
 
