@@ -1,3 +1,15 @@
+## 1.2.3 (03/04/2017)
+
+### Features
+
+* createMockMapper - Creates an api mock mapper for testing
+* request state handler now can be: "an action object" or a function returning an action object or an array of action object or action creators, or returning nothing(in this case, the handler can dispatch the objects itself)
+* request state handler now has this signature : (parsedResponse, apiMapper, storeDispatcher) => null|undefined|Array<Obj|Fn>|Obj
+
+### Bug fix
+
+* Fix multiple exports of the same module
+
 ## 1.1.2 (03/02/2017)
 
 ### Features
