@@ -16,6 +16,9 @@
   - [`addResourceToMapper`](#addResourceToMapper)
   - [`addEndPointToMapper`](#addEndPointToMapper)
   - [`stateToAction`](#stateToAction)
+  
+- [Mock](#mock)
+  - [`createMockMapper`](#createMockMapper)
 
 
 ## Mapper
@@ -206,4 +209,80 @@ var config = {
     }
   ]
 }
+```
+
+## Mock
+
+### `createMockMapper`
+
+This function is used for mocking purposes. It creates an apiMapper with the same signature of the original mapper plus testing functions. To make testing even easier, the `call` method is just a function that does nothing and returns a function that also do nothing. 
+*since the return of the call method depends on the http-layer, we recommend using the default http-layer to avoid compatibilities issues*
+
+##### `config` (required)
+The config object defining the api
+
+```js
+import { createMockMapper } from 'redux-api-mapper';
+
+const config = /*...*/;
+
+const mockApi = createMockMapper(config);
+
+describe('Test the mock api', function () {
+  it('should call getUsers', function () {
+    mockApi.Users.getUsers.call();
+    expect(mockApi.Users.getUsers.called()).to.equal(true);
+  });
+});
+```
+
+### `mockMapper`
+This is the object returned by `createMockMapper`
+
+##### `call` (Function)
+Simulate a call to the api(do not do the request, it store the information that the method has been called). Returns a function that can also be used to simulate cancelling a request
+
+##### `called` (Function)
+A function that returns a boolean indicating if the method has been called
+
+##### `cancelled` (Function)
+A function that returns a boolean indicating if the method has been cancelled
+
+##### `calledTimes` (Function)
+A function that returns how many times a method has been called
+
+##### `cancelledTimes` (Function)
+A function that returns how many times a method has been cancelled
+
+##### `getMockData` (Function)
+A function that returns an object containing all mock metadata
+```js
+mockData = {
+  called : boolean
+  calledTimes : number
+  cancelled : boolean
+  cancelledTimes : number
+  params : object
+  reqHeaders : object
+  reqBody : object
+  reqOptions : object
+}
+```
+
+##### `reset` (Function)
+A function that reset the mock data of an endPoint, resource or the entire apiMock object
+
+```js
+
+const apiMock = /*....*/;
+
+//Reset entire mock data
+apiMock.reset();
+
+//Reset Users resource mock data
+apiMock.Users.reset();
+
+//Reset getUsers endPoint mock data
+apiMock.Users.getUsers.reset();
+
 ```
