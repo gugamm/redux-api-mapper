@@ -19,7 +19,7 @@ Now that we've provided our api object, we can connect to it. Lets create a ``Us
 class UserList extends Component {
     componentDidMount() {
         //do the api call
-        this.props.Users.getUsers.call();
+        this.props.getUsers();
     }
 
     render() {
@@ -41,9 +41,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapApiToProps = (api, ownProps) => {
+    const Users = api.Users;
     //Remember : ownProps are props passed to the wrapper component
     return {
-        Users : api.Users
+        getUsers : Users.getUsers.call
     };
 };
 
