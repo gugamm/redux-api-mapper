@@ -1,12 +1,7 @@
-import apiConnect  from './api-connect';
-import ApiProvider from './ApiProvider';
-import FetchStates from './fetch-states';
-import HttpMethods from './http-methods';
-import { createMapper, addResourceToMapper, addEndPointToMapper} from './mapper';
-import stateToAction from './state-to-action';
-import createMockMapper from './mock';
-
-export {
-  apiConnect, ApiProvider, FetchStates, HttpMethods, createMapper,
-  addResourceToMapper, addEndPointToMapper, stateToAction, createMockMapper
-};
+export {default as apiConnect} from './api-connect';
+export {default as ApiProvider} from './ApiProvider';
+export {default as FetchStates} from './fetch-states';
+export {default as HttpMethod} from './http-methods';
+export { createMapper, addResourceToMapper, addEndPointToMapper} from './mapper';
+export {default as stateToAction} from './state-to-action';
+export {default as createMockMapper} from './mock';
