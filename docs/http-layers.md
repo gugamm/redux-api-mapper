@@ -1,6 +1,6 @@
 # Http-Layers
 
-This section will guide you to create your own Http-Layer. Keep in mind that Redux-Api-Mapper has a default Http-Layer. If you don't specify a http layer when creating the mapper with ``createMapper``, the default http-layer will be used.
+This section will guide you to create your own Http-Layer. Keep in mind that Redux-Api-Mapper has a default Http-Layer. If you don't specify a http layer when creating the mapper with ``createMapper``, the default http-layer will be used. Skip this section if you just want to get start quick. The default http-layer is enough for most of the applications.
 
 ### What is a Http-Layer
 
