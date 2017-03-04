@@ -41,7 +41,7 @@ const api = createMapper(store, config);
 ### `call`
 After creating a mapper, redux-api-mapper will add a "call" method to your endPoints. You can access by : mapper.[Resource-Name].[EndPoint-Name].call()
 
-This function return a function that can be used to cancel the request.
+This function returns whatever the http-layer returns. The default http-layer returns a function that can be used to cancel a request.
 
 ##### `params` (optional)
 An object with key/value. If the key is in the path, then it will be used to build the url. If it's not, then it will be used to build the querysting.
