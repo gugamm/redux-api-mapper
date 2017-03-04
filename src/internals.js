@@ -93,12 +93,6 @@ export function buildStateDispatcher(storeDispatcher, action, mapper) {
     if (actionToDispatch === null || actionToDispatch === undefined)
       return;
 
-    //Object
-    if (typeof actionToDispatch === 'object') {
-      storeDispatcher(actionToDispatch);
-      return;
-    }
-
     //Multiple actions to dispatch
     if (Array.isArray(actionToDispatch)) {
       actionToDispatch.forEach(action => handleDispatchAction(action, payload));
@@ -116,6 +110,12 @@ export function buildStateDispatcher(storeDispatcher, action, mapper) {
         return;
 
       handleDispatchAction(fnResult, payload);
+      return;
+    }
+
+    //Object
+    if (typeof actionToDispatch === 'object') {
+      storeDispatcher(actionToDispatch);
       return;
     }
 
