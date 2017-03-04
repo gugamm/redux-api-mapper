@@ -272,6 +272,35 @@ describe('Test the mock api', function () {
 });
 ```
 
+** testing with react and enzyme **
+
+```js
+import { mount } from 'enzyme';
+import { createMockMapper, ApiProvider } from 'redux-api-mapper';
+
+class Users extends Component {
+  componentDidMount() {
+    this.props.getUser({id : 1});
+  }
+  
+  render() {/*...*/}
+}
+
+describe('<Users />', function () {
+  const mockApi = createMockMapper(/*config*/);
+  const wrapper = mount(<ApiProvider api={mockApi}><Users /></ApiProvider>);
+  
+  it('should have called getUser', function () {
+    expect(mockApi.Users.getUser.called()).to.equal(true);
+  });
+  
+  it('should have called with id = 1', function () {
+    expect(mockApi.Users.getUsers.getMockData().params['id']).to.equal(1);
+  });
+});
+
+```
+
 ### `mockMapper`
 This is the object returned by `createMockMapper`
 
