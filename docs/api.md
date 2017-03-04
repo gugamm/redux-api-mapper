@@ -82,7 +82,7 @@ The http layer accept these options :
 A function that receive the request object and do anything. The return will be ignored. Called before dispatching FETCH_START
 
 ### `afterResponse`
-A function that receive an response object and <b>CAN(but not required to)</b> parse the response into something else. Called before calling FETCH_COMPLETE or FETCH_ERROR
+A function that receive an response object after the request complete. Called before `responseParse`.
 
 ### `bodyParse`
 A function used to parse the body that will be send to the request. Receive a body(anything) and return a new body(anything)
