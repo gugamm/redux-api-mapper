@@ -86,19 +86,27 @@ export function dispatchRequest(method, store, action, httpLayer, request) {
  */
 export function buildStateDispatcher(storeDispatcher, action) {
   return function (state, payload) {
-    let actionResult = action(state);
-    let actionObj;
+    let stateToAction = action(state);
+    let stateToActionResult;
 
-    if (actionResult === null || actionResult === undefined)
+    if (stateToAction === null || stateToAction === undefined)
       return;
-    else if (typeof actionResult === "function")
-      actionObj = actionResult(payload);
-    else if (typeof actionResult === "object")
-      actionObj = Object.assign({}, actionResult, {payload});
-    else
-      throw new Error('Action mapper is not returning an action creator or action object. Cannot dispatch action to redux.');
+    else if (typeof stateToAction === "function")
+      stateToActionResult = stateToAction(payload, storeDispatcher);
+    else if (typeof stateToAction === "object")
+      stateToActionResult = Object.assign({}, stateToAction, {payload});
 
-    storeDispatcher(actionObj);
+    if (stateToActionResult === null || stateToActionResult === undefined)
+      return;
+
+    if (Array.isArray(stateToActionResult)) {
+      stateToActionResult.forEach(actionToDispatch => {
+        storeDispatcher(actionToDispatch);
+      });
+      return;
+    }
+
+    storeDispatcher(stateToActionResult);
   }
 }
 
