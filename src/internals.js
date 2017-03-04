@@ -109,7 +109,7 @@ export function buildStateDispatcher(storeDispatcher, action, mapper) {
 
     //Function
     if (typeof actionToDispatch === 'function') {
-      fnResult = actionToDispatch(payload, storeDispatcher, mapper);
+      fnResult = actionToDispatch(payload, mapper, storeDispatcher);
 
       //no need to dispatch
       if (fnResult === null || fnResult === undefined)
