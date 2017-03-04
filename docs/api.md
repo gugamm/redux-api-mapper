@@ -272,7 +272,7 @@ describe('Test the mock api', function () {
 });
 ```
 
-** testing with react and enzyme **
+**testing with react and enzyme**
 
 ```js
 import { mount } from 'enzyme';
