@@ -10,7 +10,7 @@ Many react/redux applications interact with an api. To solve this problem with r
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a config definition and returning an object with methods for accessing your api. It will automatically dispatch actions for the store based on the state of the request.
 
-## Documentation (updated to version 1.1.2)
+## Documentation (updated to version 1.2.3)
 
 * [Introduction](/docs/introduction.md)
 * [Config shape](/docs/config.md)
@@ -18,12 +18,11 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 * [ApiProvider and apiConnect](/docs/api-provider.md)
 * [Api Docs](/docs/api.md)
 * [Code Splitting](/docs/code-splitting.md)
-* [Unit Test](/docs/unit-test.md) -- Already Implemented in v1.2.0 (no docs yet)
 
 ## Install
 
 ```bash
-npm i redux-api-mapper
+npm install --save redux-api-mapper
 ```
 
 ## Quick Start
@@ -75,4 +74,3 @@ One thing to notice here is the `http-layer`parameter. This library is isomorphi
 - [ ] Write tests
 - [x] Add more http-layers (improved the default http-layer)
 - [x] Better documentation
-- [ ] Add support for mapperReducer (so we don't need to create reducers anymore)
