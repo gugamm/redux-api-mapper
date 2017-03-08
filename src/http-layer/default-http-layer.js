@@ -1,18 +1,6 @@
-import HttpMethods from '../http-methods';
-import FetchStates from '../fetch-states';
+import HttpMethods from '../mapper/http-methods';
+import FetchStates from '../mapper/fetch-states';
 
-/**
- * Create a browser http layer. A request will return a function that can be used to abort the request. An argument can be passed
- * to the function. It will be dispatched to the store. If action is a function, then the argument will be passed to the function
- * creator.
- * Options Supported :
- *  beforeRequest
- *  bodyParse
- *  afterResponse
- *  responseParse
- *
- * @returns {{get: get, put: put, post: post, head: head, delete: delete, patch: patch}}
- */
 export function createDefaultHttpLayer() {
   function doHttpRequest(stateDisptacher, method, request) {
     let requestCompleted = false;
