@@ -36,7 +36,7 @@ function handleActionToDispatch(mapper, storeDispatcher, actionToDispatch, paylo
 
   //Multiple actions to dispatch
   if (Array.isArray(actionToDispatch)) {
-    actionToDispatch.forEach(action => handleActionToDispatch(mapper, storeDispatcher, actionToDispatch, payload));
+    actionToDispatch.forEach(action => handleActionToDispatch(mapper, storeDispatcher, action, payload));
     return;
   }
 
