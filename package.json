@@ -4,6 +4,8 @@
   "description": "A redux api mapper",
   "main": "dist/index.js",
   "scripts": {
+    "test": "mocha --require babel-polyfill --compilers js:babel-register  tests/**/*.js",
+    "testw": "mocha --watch --require babel-polyfill --compilers js:babel-register  tests/**/*.js",
     "clean": "rimraf dist",
     "prebuild": "npm run clean",
     "build": "babel src -d dist --ignore node_modules"
@@ -24,8 +26,13 @@
   "devDependencies": {
     "babel-cli": "^6.23.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
-    "rimraf": "^2.6.1"
+    "babel-register": "^6.23.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0",
+    "rimraf": "^2.6.1",
+    "sinon": "^1.17.7"
   }
 }

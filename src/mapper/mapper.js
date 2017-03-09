@@ -6,7 +6,7 @@ import buildActionBuilder from '../reducer/action-builder';
 import { createDefaultHttpLayer } from '../http-layer/default-http-layer';
 import { mergeHeaders, mergeOptions } from '../utils/merge';
 
-function createMapper(store, config, httpLayer) {
+export function createMapper(store, config, httpLayer) {
   let mapper = {
     store      : store,
     httpLayer  : (httpLayer) ? httpLayer : createDefaultHttpLayer(),
@@ -24,7 +24,7 @@ function createMapper(store, config, httpLayer) {
   return mapper;
 }
 
-function addResourceToMapper(mapper, resource) {
+export function addResourceToMapper(mapper, resource) {
   let mResource = {
     _mapper : mapper,
     name    : resource.name,
@@ -42,7 +42,7 @@ function addResourceToMapper(mapper, resource) {
   mapper[resource.name] = mResource;
 }
 
-function addEndPointToResource(resource, endPoint) {
+export function addEndPointToResource(resource, endPoint) {
   let mEndPoint = {
     _resource : resource,
     name      : endPoint.name,
@@ -67,7 +67,7 @@ function addEndPointToResource(resource, endPoint) {
   };
 }
 
-function buildEndPointFunc(mEndPoint) {
+export function buildEndPointFunc(mEndPoint) {
   let endPointFunc = function (params, body, headers, options) {
     const mapper    = mEndPoint._resource._mapper;
     const resource  = mEndPoint._resource;
@@ -104,4 +104,3 @@ function buildEndPointFunc(mEndPoint) {
   return endPointFunc;
 }
 
-export default createMapper;

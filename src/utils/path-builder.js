@@ -1,5 +1,5 @@
 function buildRequestPath(host, rPath, ePath, params) {
-  return `${host}${rPath}${parseEndPointPath(ePath, params)}`;
+  return encodeURI(`${host}${rPath}${parseEndPointPath(ePath, params)}`);
 }
 
 function parseEndPointPath(ePath, params) {
