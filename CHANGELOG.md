@@ -1,3 +1,20 @@
+## 2.0.0 (03/12/2017)
+
+### Features
+
+* Api reducer. Each endpoin has a reducer. The reducer can be customized.
+* stateToAction is optional now since in most cases we only need the reducer
+* New configs props : reducerName and reducerBuilder
+* Added createApiReducer
+
+### Breaking Changes
+
+* No more "call" method. All methods are called directly by the end point name.
+* End point methods are now (params, body, headers, options)
+* Removed mock mapper
+* Removed addResourceToMapper
+* Removed addEndPointToMapper
+
 ## 1.2.3 (03/04/2017)
 
 ### Features
