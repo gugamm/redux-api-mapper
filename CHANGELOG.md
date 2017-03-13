@@ -2,7 +2,7 @@
 
 ### Features
 
-* Api reducer. Each endpoin has a reducer. The reducer can be customized.
+* Api reducer. Each endpoint has a reducer. The reducer can be customized.
 * stateToAction is optional now since in most cases we only need the reducer
 * New configs props : reducerName and reducerBuilder
 * Added createApiReducer

@@ -11,10 +11,11 @@ var config = {
   },
   options : { //these options are supported by the default http-layer.
     beforeRequest : (request) => {},
-    afterResponse : (response) => JSON.parse(response.data),
+    afterResponse : (response) => console.log(response.data),
     bodyParse     : (body) => JSON.stringify(body),
     responseParse : (response) => JSON.parse(response.data)
   },
+  reducerBuilder : customReducerBuilder,
   resources : [
     {
       name : 'Users',
@@ -22,6 +23,8 @@ var config = {
       headers : {
         'Some-Fancy-Header' : 'some-fancy-header'
       },
+      reducerName : 'users',
+      reducerBuilder : customReducerBuilder,
       options : { //these options are supported by the default http-layer.
         beforeRequest : (request) => {},
         afterResponse : (response) => JSON.parse(response.data),
@@ -37,6 +40,8 @@ var config = {
           headers : {
             'Another-Fancy-Header' : 'fancy-header'
           },
+          reducerName : 'getUsers',
+          reducerBuilder : customReducerBuilder,
           options : { //these options are supported by the default http-layer.
             beforeRequest : (request) => {},
             afterResponse : (response) => JSON.parse(response.data),
@@ -70,5 +75,3 @@ var config = {
 * You can (and should) put each resource in a separated file
 * Always use stateToAction helper unless you have a good reason to do it by hand
 * Add optional parameters as comments in your end-points, so you'll know what are the possible parameters
-
-<b>Thats it! Go to the next section to learn how to create an Http-Layer and to start doing your requests</b>

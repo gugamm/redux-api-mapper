@@ -2,7 +2,7 @@
 
 - [Mapper](#mapper)
   - [`createMapper`](#createMapper)
-  - [`call`](#call)
+  - [`making requests`](#makingRequests)
   
 - [DefaultHttpLayer](#defaultHttpLayer)
   - [`beforeRequest`](#beforeRequest)
@@ -15,13 +15,7 @@
 - [RequestStateHandler](#requestStateHandler)
           
 - [Utilities](#utilities)
-  - [`addResourceToMapper`](#addResourceToMapper)
-  - [`addEndPointToMapper`](#addEndPointToMapper)
   - [`stateToAction`](#stateToAction)
-  
-- [Mock](#mock)
-  - [`createMockMapper`](#createMockMapper)
-
 
 ## Mapper
 
@@ -43,32 +37,31 @@ import { config } from './config'
 const api = createMapper(store, config);
 ```
 
-### `call`
-After creating a mapper, redux-api-mapper will add a "call" method to your endPoints. You can access by : mapper.[Resource-Name].[EndPoint-Name].call()
-
-This function returns whatever the http-layer returns. The default http-layer returns a function that can be used to cancel a request.
+### `making requests`
+Your mapper object will contain functions to access your api.
+These functions returns whatever the http-layer returns. The default http-layer returns a function that can be used to cancel a request.
 
 ##### `params` (optional)
 An object with key/value. If the key is in the path, then it will be used to build the url. If it's not, then it will be used to build the querysting.
 
-##### `headers` (optional)
-An object with key/value to be used as request headers
-
 ##### `body` (optional)
 Anything to be used as a body for the request
+
+##### `headers` (optional)
+An object with key/value to be used as request headers
 
 ##### `options` (optional)
 Usually an object. The properties that you can pass depend on the http-layer you are using. For the default layer, please see the API doc for the DefaultHttpLayer.
 
 ```js
-api.Users.getUsers.call({count : 10}, {'Content-Type' : 'application/json'});
-api.Auth.signin.call(null, {'Content-Type' : 'application/json'}, {username : 'blabla', password : 'blablum'});
+api.Users.getUsers({count : 10});
+api.Auth.signIn(null, {username : 'blabla', password : 'blablum'}, {'Content-Type' : 'application/json'});
 
 //Cancelling a request
-const cancel = api.Users.getUsers.call({count : 10}, {'Content-Type' : 'application/json'});
+const cancel = api.Users.getUsers({count : 10});
 cancel('Reason for cancelling'); //This is passed as a payload to the CANCELLED action
 
-const cancel = api.Auth.signin.call(null, {'Content-Type' : 'application/json'}, {username : 'blabla', password : 'blablum'});
+const cancel = api.Auth.signIn(null, {username : 'blabla', password : 'blablum'}, {'Content-Type' : 'application/json'});
 cancel({reason : 'Because I want'}); //This is passed as a payload to the CANCELLED action
 
 ```
@@ -121,7 +114,14 @@ const response = {
 This is the request object that is passed to the http-layers
 
 ```js
-const request = {fullPath : string, path : string, params : Object, headers : Object, body : any, options : any};
+const request = {
+  fullPath : string, 
+  path     : string, 
+  params   : Object, 
+  headers  : Object, 
+  body     : any, 
+  options  : any
+};
 ```
 
 ## RequestStateHandler
@@ -135,6 +135,7 @@ const handleFetch = (parsedResponse, api, dispatch) => {
   api.headers['Content-Type'] = 'application/json';
   dispatch(coolAction());
   
+  //The return array will be handled by the redux-api-library. If it returns an object, it will dispatch to the store
   return [{type : EXAMPLE}, createExample, createExampleAction()];
 }
 
@@ -159,44 +160,6 @@ const config = {
 ``` 
 
 ## Utilities
-
-### `addResourceToMapper`
-This is a helper function to add a resource to an already created api mapper. This function is very helpful when we are using code splitting
-
-##### `mapper` (required)
-The mapper object
-
-##### `resource` (required)
-The resource to be added to the mapper
-
-```js
-import { MyCoolResource } from './resources/cool';
-import { api } from './api';
-
-addResourceToMapper(api, MyCoolResource);
-```
-
-### `addEndPointToMapper`
-This is a helper function to add a endPoint to a resource. This function is very helpful when we are using code splitting
-
-
-##### `mapper` (required)
-The mapper object
-
-##### `resource` (required)
-The resource object
-
-##### `endPoint` (required)
-The endPoint object
-
-```js
-import { MyCoolResource } from './resources/cool';
-import { MyAwesomeEndPoint } from './endpoints/awesome';
-import { api } from './api';
-
-//Here MyCoolResource is already in the api mapper
-addEndPointToMapper(api, MyCoolResource, MyAwesomeEndPoint);
-```
 
 ### `stateToAction`
 
@@ -231,7 +194,7 @@ var config = {
   resources : [
     {
       name : 'Users',
-      path : '/users'
+      path : '/users',
       endPoints : [
         {
           name : 'getUsers',
@@ -245,109 +208,4 @@ var config = {
     }
   ]
 }
-```
-
-## Mock
-
-### `createMockMapper`
-
-This function is used for mocking purposes. It creates an apiMapper with the same signature of the original mapper plus testing functions. To make testing even easier, the `call` method is just a function that does nothing and returns a function that also do nothing. 
-*since the return of the call method depends on the http-layer, we recommend using the default http-layer to avoid compatibilities issues*
-
-##### `config` (required)
-The config object defining the api
-
-```js
-import { createMockMapper } from 'redux-api-mapper';
-
-const config = /*...*/;
-
-const mockApi = createMockMapper(config);
-
-describe('Test the mock api', function () {
-  it('should call getUsers', function () {
-    mockApi.Users.getUsers.call();
-    expect(mockApi.Users.getUsers.called()).to.equal(true);
-  });
-});
-```
-
-**testing with react and enzyme**
-
-```js
-import { mount } from 'enzyme';
-import { createMockMapper, ApiProvider } from 'redux-api-mapper';
-
-class Users extends Component {
-  componentDidMount() {
-    this.props.getUser({id : 1});
-  }
-  
-  render() {/*...*/}
-}
-
-describe('<Users />', function () {
-  const mockApi = createMockMapper(/*config*/);
-  const wrapper = mount(<ApiProvider api={mockApi}><Users /></ApiProvider>);
-  
-  it('should have called getUser', function () {
-    expect(mockApi.Users.getUser.called()).to.equal(true);
-  });
-  
-  it('should have called with id = 1', function () {
-    expect(mockApi.Users.getUsers.getMockData().params['id']).to.equal(1);
-  });
-});
-
-```
-
-### `mockMapper`
-This is the object returned by `createMockMapper`
-
-##### `call` (Function)
-Simulate a call to the api(do not do the request, it store the information that the method has been called). Returns a function that can also be used to simulate cancelling a request
-
-##### `called` (Function)
-A function that returns a boolean indicating if the method has been called
-
-##### `cancelled` (Function)
-A function that returns a boolean indicating if the method has been cancelled
-
-##### `calledTimes` (Function)
-A function that returns how many times a method has been called
-
-##### `cancelledTimes` (Function)
-A function that returns how many times a method has been cancelled
-
-##### `getMockData` (Function)
-A function that returns an object containing all mock metadata
-```js
-mockData = {
-  called : boolean
-  calledTimes : number
-  cancelled : boolean
-  cancelledTimes : number
-  params : object
-  reqHeaders : object
-  reqBody : object
-  reqOptions : object
-}
-```
-
-##### `reset` (Function)
-A function that reset the mock data of an endPoint, resource or the entire apiMock object
-
-```js
-
-const apiMock = /*....*/;
-
-//Reset entire mock data
-apiMock.reset();
-
-//Reset Users resource mock data
-apiMock.Users.reset();
-
-//Reset getUsers endPoint mock data
-apiMock.Users.getUsers.reset();
-
 ```

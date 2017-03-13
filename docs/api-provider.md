@@ -34,9 +34,11 @@ class UserList extends Component {
 
 //Lets connect (we recomend using "compose" from redux and "connect" from react-redux)
 
+//Here we are considering that you are using the default apiReducer
 const mapStateToProps = (state) => {
+    const getUsers = state.api.Users.getUsers;
     return {
-        users : state.users
+        users : getUsers.data
     };
 };
 
@@ -44,7 +46,7 @@ const mapApiToProps = (api, ownProps) => {
     const Users = api.Users;
     //Remember : ownProps are props passed to the wrapper component
     return {
-        getUsers : Users.getUsers.call
+        getUsers : Users.getUsers
     };
 };
 
