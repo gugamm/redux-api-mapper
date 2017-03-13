@@ -19,6 +19,10 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 * [Api Docs](/docs/api.md)
 * [Http-Layers](/docs/http-layers.md)
 
+## Examples
+
+* [redux-api-mapper-example](https://github.com/gugamm/redux-api-mapper-example)
+
 ## Install
 
 ```bash
