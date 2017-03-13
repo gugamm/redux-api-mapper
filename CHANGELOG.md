@@ -1,3 +1,9 @@
+## 2.0.1 (03/12/2017)
+
+### Features
+
+* Update documentation
+
 ## 2.0.0 (03/12/2017)
 
 ### Features
