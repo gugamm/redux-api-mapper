@@ -10,7 +10,7 @@ var config = {
     'Content-type' : 'application/json'
   },
   options : { //these options are supported by the default http-layer.
-    beforeRequest : (request) => {},
+    beforeRequest : (request) => console.log('Doing a request...'),
     afterResponse : (response) => console.log(response.data),
     bodyParse     : (body) => JSON.stringify(body),
     responseParse : (response) => JSON.parse(response.data)
@@ -27,7 +27,7 @@ var config = {
       reducerBuilder : customReducerBuilder,
       options : { //these options are supported by the default http-layer.
         beforeRequest : (request) => {},
-        afterResponse : (response) => JSON.parse(response.data),
+        afterResponse : (response) => console.log(response.data),
         bodyParse     : (body) => JSON.stringify(body),
         responseParse : (response) => JSON.parse(response.data)
       },
@@ -44,7 +44,7 @@ var config = {
           reducerBuilder : customReducerBuilder,
           options : { //these options are supported by the default http-layer.
             beforeRequest : (request) => {},
-            afterResponse : (response) => JSON.parse(response.data),
+            afterResponse : (response) => console.log(response.data),
             bodyParse     : (body) => JSON.stringify(body),
             responseParse : (response) => JSON.parse(response.data)
           }
