@@ -65,10 +65,16 @@ export function addEndPointToResource(resource, endPoint) {
     let { dispatch } = resource._mapper.store;
     dispatch({type : actionBuilder("CLEAR_STATE")});
   };
+  resource[endPoint.name].dispatch   = function (action) {
+    if (action.type)
+      action.type = actionBuilder(action.type);
+
+    resource._mapper.store.dispatch(action);
+  }
 }
 
 export function buildEndPointFunc(mEndPoint) {
-  let endPointFunc = function (params, body, headers, options) {
+  return function (params, body, headers, options) {
     const mapper    = mEndPoint._resource._mapper;
     const resource  = mEndPoint._resource;
     const httpLayer = mEndPoint._resource._mapper.httpLayer;
@@ -100,7 +106,5 @@ export function buildEndPointFunc(mEndPoint) {
 
     return httpLayer[eMethod](stateDispatcher, request);
   };
-
-  return endPointFunc;
 }
 

@@ -1,3 +1,9 @@
+## 2.1.1 (03/13/2017)
+
+### Features
+
+* It's possible to dispatch actions to a specific end point reducer by using `endPoint.dispatch(action)`.
+
 ## 2.0.1 (03/12/2017)
 
 ### Features
