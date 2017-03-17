@@ -1,6 +1,7 @@
 # ApiProvider and apiConnect
 
-If you ever used ``react-redux`` before, you've probably have already used ``connect`` and ``<Provider store={yourstore} />``. This library provides the same functionality but for you api object. This way you can provide your api as props to your connected objects.
+If you ever used ``react-redux`` before, you've probably have already used ``connect`` and ``<Provider store={yourstore} />``. This library provides the same functionality but for you api object. This way you can provide your api methods as props to your connected objects.
+**This feature is not required. You can still "import" the api object and use it normally in your components. Use this feature if you want to pass request methods as properties to your components**
 
 ### How to provide an api
 Let's see how we provide our api object so we can connect components to it.
