@@ -34,7 +34,7 @@ class FetchHttpLayer {
     if (cacheHandler) {
       const cacheResponse = cacheHandler(request);
 
-      if (cacheResponse) {
+      if (cacheResponse !== undefined) {
         return new Promise((resolve) => {
           stateDispatcher(FetchStates.FETCH_COMPLETED, cacheResponse);
           resolve(cacheResponse);
