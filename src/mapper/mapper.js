@@ -3,13 +3,13 @@ import buildRequestPath from '../utils/path-builder';
 import buildRequest from './request';
 import buildStateDispatcher from './state-dispatcher';
 import buildActionBuilder from '../reducer/action-builder';
-import { createDefaultHttpLayer } from '../http-layer/default-http-layer';
+import { FetchHttpLayer } from '../http-layers';
 import { mergeHeaders, mergeOptions } from '../utils/merge';
 
 export function createMapper(store, config, httpLayer) {
   let mapper = {
     store      : store,
-    httpLayer  : (httpLayer) ? httpLayer : createDefaultHttpLayer(),
+    httpLayer  : (httpLayer) ? httpLayer : new FetchHttpLayer(),
     host       : config.host,
     headers    : config.headers,
     options    : config.options
@@ -102,7 +102,7 @@ export function buildEndPointFunc(mEndPoint) {
     const stateDispatcher = buildStateDispatcher(store, eAction, mEndPoint);
 
     if (!httpLayer[eMethod])
-      throw new Error('Current http-layer do not support ' + eMethod + ' method');
+      throw new Error('Current http-layers do not support ' + eMethod + ' method');
 
     return httpLayer[eMethod](stateDispatcher, request);
   };

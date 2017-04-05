@@ -9,7 +9,7 @@ var config = {
     'Authorization' : () => window.localStorage.getItem('token'),
     'Content-type' : 'application/json'
   },
-  options : { //these options are supported by the default http-layer.
+  options : { http-layers
     beforeRequest : (request) => console.log('Doing a request...'),
     afterResponse : (response) => console.log(response.data),
     bodyParse     : (body) => JSON.stringify(body),
@@ -25,7 +25,7 @@ var config = {
       },
       reducerName : 'users',
       reducerBuilder : customReducerBuilder,
-      options : { //these options are supported by the default http-layer.
+      options : { http-layers
         beforeRequest : (request) => {},
         afterResponse : (response) => console.log(response.data),
         bodyParse     : (body) => JSON.stringify(body),
@@ -42,7 +42,7 @@ var config = {
           },
           reducerName : 'getUsers',
           reducerBuilder : customReducerBuilder,
-          options : { //these options are supported by the default http-layer.
+          options : { http-layers
             beforeRequest : (request) => {},
             afterResponse : (response) => console.log(response.data),
             bodyParse     : (body) => JSON.stringify(body),

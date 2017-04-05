@@ -15,7 +15,7 @@ This library is very flexible and tries to attend any implementation you need. W
 Lets create a http-layer that will use fetch and only handle "get" requests.
 
 ```js
-//Remember: An http-layer is just an object with the http-methods
+http-layers
 
 const myHttpLayer = {
    //All methods receive a stateDispatcher and a request and can return anything(the return will be the return of the call function)
