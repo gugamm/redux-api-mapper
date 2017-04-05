@@ -1,3 +1,20 @@
+## 3.0.0 (04/05/2017)
+
+### Features
+
+* New http-layer (FetchHttpLayer)
+* New options supported by the default http-layer
+* parseResponse and parseBody has a default behavior to work with json data
+* Default http-layer support memory response and timeout using `memResponse` and `timeout` options
+* Default http-layer support cacheHandler. A function called with the request to be made. If the function returns anything, then this will be the response of the request.
+* FetchHttpLayer returns a promise, so it's now possible to chain requests.
+
+### Breaking Changes
+
+* Default http-layer is now FetchHttpLayer
+* FetchHttpLayer makes use of the isomorphic-fetch library
+* It's not possible to cancel a request anymore. By using the default http-layer(FetchHttpLayer), the result of calling an EndPoint is a Promise.
+
 ## 2.1.1 (03/13/2017)
 
 ### Features
