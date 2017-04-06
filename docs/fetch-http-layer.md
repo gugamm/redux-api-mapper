@@ -22,7 +22,7 @@ Now let's take a look at all options supported by the FetchHttpLayer.
 #### beforeRequest :: (Request) -> any
 `beforeRequest` is a function called before starting the request. 
 
-#### afterResponse :: (ParsedResponse) -> any
+#### afterResponse :: (Request, ParsedResponse) -> any
 `afterResponse` is a function called after the response have been parsed
 
 #### parseBody  :: (Body) -> ParsedBody
