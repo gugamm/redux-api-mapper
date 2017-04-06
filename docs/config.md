@@ -9,11 +9,8 @@ var config = {
     'Authorization' : () => window.localStorage.getItem('token'),
     'Content-type' : 'application/json'
   },
-  options : { http-layers
-    beforeRequest : (request) => console.log('Doing a request...'),
-    afterResponse : (response) => console.log(response.data),
-    bodyParse     : (body) => JSON.stringify(body),
-    responseParse : (response) => JSON.parse(response.data)
+  options : {
+    /* See http-layer documentation */
   },
   reducerBuilder : customReducerBuilder,
   resources : [
@@ -25,11 +22,8 @@ var config = {
       },
       reducerName : 'users',
       reducerBuilder : customReducerBuilder,
-      options : { http-layers
-        beforeRequest : (request) => {},
-        afterResponse : (response) => console.log(response.data),
-        bodyParse     : (body) => JSON.stringify(body),
-        responseParse : (response) => JSON.parse(response.data)
+      options : { 
+        /* See http-layer documentation */
       },
       endPoints : [
         {
@@ -42,11 +36,8 @@ var config = {
           },
           reducerName : 'getUsers',
           reducerBuilder : customReducerBuilder,
-          options : { http-layers
-            beforeRequest : (request) => {},
-            afterResponse : (response) => console.log(response.data),
-            bodyParse     : (body) => JSON.stringify(body),
-            responseParse : (response) => JSON.parse(response.data)
+          options : { 
+            /* See http-layer documentation */
           }
         },
         {

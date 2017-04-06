@@ -40,7 +40,7 @@ const myHttpLayer = {
       //Here we are receiving the parseResponse options
       var parser = (request.options.parseResponse) || ((response) => response);
       stateDispatcher(FETCH_STARTED);
-        fetch(request.fullPath).then(response => stateDispatcher(FETCH_COMPLETED, parse(response))); 
+        fetch(request.fullPath).then(parser).then(response => stateDispatcher(FETCH_COMPLETED, response)); 
     }
 }
 ```

@@ -4,7 +4,7 @@ Redux-Api-Mapper is a small library that will help you handle http requests. The
 
 ### ApiProvider
 
-If you come from redux. You've probably have used ``<Provider />`` before. This library has an ``ApiProvider`` for the same purpose, so you can ``connect`` your components to api methods and make calls from inside your components.
+If you ever used react-redux before, you've probably have used ``<Provider />``. This library has an ``ApiProvider`` for the same purpose, so you can ``connect`` your components to api methods and make calls from inside your components.
 
 ### apiConnect
 
@@ -12,10 +12,12 @@ If you come from redux. You've probably have used ``<Provider />`` before. This 
 
 ### States of a request
 
-A request can be in 4 states : ``Starting``, ``Completed``, ``Error``, ``Cancelled``. This library support all of these states. The default http-layer also helps you cancel an http-request after it has been started.
+A request can be in 4 states : ``Starting``, ``Completed``, ``Error``, ``Cancelled``. This library support all of these states.
 
-### apiReducer
+### ApiReducer
 
-This library helps you to build a reducer to keep track of the state of all your api requests. This way, you don't have to create a reducer for each request. For each end point, a default reducer is created. It's possible to override the default reducer at Global, Resource and EndPoint level.
+This library helps you to build a reducer to keep track of the state of all your api requests. This way, you don't have to create a reducer and actions for each request. For each end point, a default reducer is created. It's possible to override the default reducer at Global, Resource and EndPoint level.
 
-<b>Thats it! Now you know all hard stuff from redux-api-mapper.</b>
+### Http-Layer
+
+The http-layer is a object used by redux-api-mapper to resolve the request. This library provides a default http-layer using the isomorphic-fetch library. So you don't need to implement this, however you are free to create your own http-layer and override the default behavior and options that this library provides.

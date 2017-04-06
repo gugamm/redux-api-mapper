@@ -4,18 +4,19 @@
 
 ## Motivation
 
-Many react/redux applications interact with an api. To solve this problem with redux, we use middlewares that are able to handle async actions, such as a http request. Using this approach is not wrong, however, sometimes it generates a lot of boilerplate. Especially when handling api requests.
+Many react/redux applications need to interact with an api. To solve this problem with redux, we use middlewares that are able to handle async actions, such as a http request. Using this approach is not wrong, however, sometimes it generates a lot of boilerplate. Especially when handling api requests.
 
 ## Solution
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a simple config definition. You can create an object with methods for accessing your api. It will automatically dispatch actions for your reducers based on the state of the request. This library also create an apiReducer so you don't have to create any reducer or actions by hand.
 
-## Documentation (updated to version 2.1.1)
+## Documentation (3.0.0)
 
 * [Introduction](/docs/introduction.md)
 * [ApiReducer](/docs/api-reducer.md)
 * [Config shape](/docs/config.md)
 * [ApiProvider and apiConnect](/docs/api-provider.md)
+* [FetchHttpLayer](/docs/fetch-http-layer.md)
 * [Api Docs](/docs/api.md)
 * [Http-Layers](/docs/http-layers.md)
 
@@ -68,11 +69,3 @@ api.Repos.getRepos({username : 'gugamm'});
 ```
 
 Depending on how you are using this library, you can take advantage of the built-in api reducer, provide your own or use an external one. When making the request, the library will automatically dispatch actions to your reducers depending on the state of the request.
-
-## Todos
-
-- [x] Add better "options" support
-- [ ] Write tests (writing)
-- [x] Add more http-layers (improved the default http-layer)
-- [x] Better documentation
-- [x] Add api reducer

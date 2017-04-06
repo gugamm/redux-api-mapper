@@ -4,14 +4,8 @@
   - [`createMapper`](#createMapper)
   - [`making requests`](#makingRequests)
   
-- [DefaultHttpLayer](#defaultHttpLayer)
-  - [`beforeRequest`](#beforeRequest)
-  - [`afterResponse`](#afterResponse)
-  - [`bodyParse`](#bodyParse)
-  - [`responseParse`](#responseParse)
-  - [`Response`](#response)
-  - [`Request`](#request)   
-  
+- [Request](#request)   
+ 
 - [RequestStateHandler](#requestStateHandler)
           
 - [Utilities](#utilities)
@@ -27,7 +21,7 @@ The redux store object
 The config object, defining resources, endPoints...
 
 ##### `http-layer` (optional)
-A custom http-layer implementation. If not provided, the DefaultHttpLayer will be used
+A custom http-layer implementation. If not provided, the default http-layer (FetchHttpLayer) will be used
 
 ```js
 import { createMapper } from 'redux-api-mapper'
@@ -56,61 +50,12 @@ Usually an object. The properties that you can pass depend on the http-layer you
 ```js
 api.Users.getUsers({count : 10});
 api.Auth.signIn(null, {username : 'blabla', password : 'blablum'}, {'Content-Type' : 'application/json'});
-
-//Cancelling a request
-const cancel = api.Users.getUsers({count : 10});
-cancel('Reason for cancelling'); //This is passed as a payload to the CANCELLED action
-
-const cancel = api.Auth.signIn(null, {username : 'blabla', password : 'blablum'}, {'Content-Type' : 'application/json'});
-cancel({reason : 'Because I want'}); //This is passed as a payload to the CANCELLED action
-
+//
+//chaining request
+api.Auth.signIn(null, {username : 'blabla', passwordl : 'blablum'}).then(api.Users.getUsers());
 ```
 
-## DefaultHttpLayer
-This is the default http-layer that is used in case you don't pass an http-layer when creating a mapper.
-
-The http layer accept these options :
-
-### `beforeRequest`
-A function that receive the request object and do anything. The return will be ignored. Called before dispatching FETCH_START
-
-### `afterResponse`
-A function that receive an response object after the request complete. Called before `responseParse`.
-
-### `bodyParse`
-A function used to parse the body that will be send to the request. Receive a body(anything) and return a new body(anything)
-
-### `responseParse`
-A function that receive an response object and <b>MUST(required to)</b> parse the response into something else. Called before calling FETCH_COMPLETE or FETCH_ERROR
-
-```js
-const config = {
-  /* host, resources, headers... */
-  options : {
-    beforeRequest : (request)  => console.log(request),
-    afterResponse : (response) => console.log(response),
-    bodyParse     : (body)     => JSON.stringify(body),
-    responseParse : (response) => JSON.parse(response.data)
-  }
-}
-```
-
-### `Response`
-This is the response object that is returned by the http-layer
-
-```js
-const response = {
-  data              : xhr.response,
-  status            : xhr.status,
-  statusText        : xhr.statusText,
-  getResponseHeader : xhr.getResponseHeader,
-  request           : request,
-  method            : method,
-  ok                : (xhr.status >= 200 && xhr.status <= 299)
-}
-```
-
-### `Request`
+## Request
 This is the request object that is passed to the http-layers
 
 ```js
