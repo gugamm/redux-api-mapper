@@ -43,3 +43,6 @@ The FetchHttpLayer already provides a default behavior for this. It parse the bo
 
 #### cacheHandler :: (Request) -> any
 `cacheHandler` is a function that you can use to implement a cache behavior. Whenever this function returns anything, it will be used as the response of the request. If this function does not return anything, then the request will be made.
+
+#### credentials :: String
+`creadentials` is an option used internally by the [FetchApi](https://github.com/github/fetch). Please refer to the Fetch Api documentation for more information on how to use it.

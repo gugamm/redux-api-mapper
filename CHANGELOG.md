@@ -1,3 +1,9 @@
+## 3.3.2 (04/07/2017)
+
+### Features
+
+* FetchHttpLayer support `credentials` option
+
 ## 3.2.1 (04/07/2017)
 
 ### Features

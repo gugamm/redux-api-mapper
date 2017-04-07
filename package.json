@@ -1,6 +1,6 @@
 {
   "name": "redux-api-mapper",
-  "version": "3.2.1",
+  "version": "3.3.2",
   "description": "A redux api mapper",
   "main": "dist/index.js",
   "scripts": {
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.23.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",

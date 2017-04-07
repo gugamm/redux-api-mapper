@@ -14,6 +14,7 @@ class FetchHttpLayer {
     const errorHandler      = request.options.errorHandler  || ((e) => e);
     const delay             = request.options.delay;
     const memResponse       = request.options.memResponse;
+    const credentials       = request.options.credentials;
 
     if (memResponse !== undefined) {
       const memResponseFn = (typeof memResponse === "function") ? memResponse : (() => memResponse);
@@ -52,9 +53,10 @@ class FetchHttpLayer {
     stateDispatcher(FetchStates.FETCH_STARTED);
 
     fetch(request.fullPath, {
-      method  : method,
-      headers : request.headers,
-      body    : parseBody(request.body)
+      method      : method,
+      headers     : request.headers,
+      body        : parseBody(request.body),
+      credentials : credentials
     }).then(
       response => {
         return new Promise((resolve) => {
