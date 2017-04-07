@@ -11,22 +11,28 @@ class FetchHttpLayer {
     const parseBody         = request.options.parseBody     || request.options.bodyParse     || ((b) => JSON.stringify(b));
 
     const cacheHandler      = request.options.cacheHandler;
-    const errorHandler      = request.options.errorHandler  || ((e) => console.error(e));
-    const timeout           = request.options.timeout;
+    const errorHandler      = request.options.errorHandler  || ((e) => e);
+    const delay             = request.options.delay;
     const memResponse       = request.options.memResponse;
 
     if (memResponse !== undefined) {
+      const memResponseFn = (typeof memResponse === "function") ? memResponse : (() => memResponse);
+
       return new Promise((resolve) => {
-        if (timeout > 0) {
+        if (delay > 0) {
           stateDispatcher(FetchStates.FETCH_STARTED);
           setTimeout(() => {
-            stateDispatcher(FetchStates.FETCH_COMPLETED, memResponse);
-            resolve(memResponse)
-          }, timeout);
+            const response = memResponseFn();
+
+            stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+            resolve(response)
+          }, delay);
         }
         else {
-          stateDispatcher(FetchStates.FETCH_COMPLETED, memResponse);
-          resolve(memResponse);
+          const response = memResponseFn();
+
+          stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+          resolve(response);
         }
       });
     }
@@ -44,6 +50,7 @@ class FetchHttpLayer {
 
     beforeRequest(request);
     stateDispatcher(FetchStates.FETCH_STARTED);
+
     fetch(request.fullPath, {
       method  : method,
       headers : request.headers,
@@ -68,7 +75,9 @@ class FetchHttpLayer {
           
         });
       }
-    ).catch(errorHandler);
+    ).catch((e) => {
+      stateDispatcher(FetchStates.FETCH_ERROR, errorHandler(e));
+    });
   }
 
   get(stateDispatcher, request) {
