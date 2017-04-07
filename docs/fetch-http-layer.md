@@ -32,11 +32,11 @@ The FetchHttpLayer already provides a default behavior for this. It parse the bo
 #### parseResponse :: (Response) -> Promise\<ParsedResponse\>
 `parseResponse` is a function called after the request has been completed. You can use this function to parse the response. The FetchHttpLayer already provides a default behavior for this function. It uses response.json(). Please refer to the [FetchApi](https://github.com/github/fetch) for more information about the `Response` object.
 
-#### memResponse :: any
+#### memResponse :: (Object|Function)
 `memResponse` is an option to help you at development when you don't have an api method implemented yet. You can provide a `memory response`, so everytime you use the method you gonna get the memory response.
 
-#### timeout :: Number
-`timeout` is an option to in which a request using memResponse must complete. You can use this option so you can see you `loading` at the UI.
+#### delay :: Number
+`delay` is a option used to delay the response of the emulated memory response. You can use this option to be able to see spinners.
 
 #### errorHandler :: (Error) -> any
 `errorHandler` is a function called when there is a connection error or parsing error.
