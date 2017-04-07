@@ -1,3 +1,14 @@
+## 3.1.1 (04/07/2017)
+
+### Breaking Changes
+
+* FetchHttpLayer `timeout` renamed to `delay`
+
+### Features
+
+* FetchHttpLayer `memResponse` can be a function
+* FetchHttpLayer `errorHandler` is called with the error object. The result of this function will be dispatched to the store with FetchState = Error
+
 ## 3.0.0 (04/05/2017)
 
 ### Features
