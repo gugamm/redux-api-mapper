@@ -10,7 +10,7 @@ Many react/redux applications need to interact with an api. To solve this proble
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a simple config definition. You can create an object with methods for accessing your api. It will automatically dispatch actions for your reducers based on the state of the request. This library also create an apiReducer so you don't have to create any reducer or actions by hand.
 
-## Documentation (3.1.1)
+## Documentation (3.2.1)
 
 * [Introduction](/docs/introduction.md)
 * [ApiReducer](/docs/api-reducer.md)

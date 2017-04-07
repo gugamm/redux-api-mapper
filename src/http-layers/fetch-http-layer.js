@@ -22,14 +22,14 @@ class FetchHttpLayer {
         if (delay > 0) {
           stateDispatcher(FetchStates.FETCH_STARTED);
           setTimeout(() => {
-            const response = memResponseFn();
+            const response = memResponseFn(request);
 
             stateDispatcher(FetchStates.FETCH_COMPLETED, response);
             resolve(response)
           }, delay);
         }
         else {
-          const response = memResponseFn();
+          const response = memResponseFn(request);
 
           stateDispatcher(FetchStates.FETCH_COMPLETED, response);
           resolve(response);

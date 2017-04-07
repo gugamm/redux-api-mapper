@@ -1,3 +1,9 @@
+## 3.2.1 (04/07/2017)
+
+### Features
+
+* FetchHttpLayer `memResponse` (in case of a function) receive the request as a parameter.
+
 ## 3.1.1 (04/07/2017)
 
 ### Breaking Changes
