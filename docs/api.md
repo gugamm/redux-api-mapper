@@ -33,7 +33,7 @@ const api = createMapper(store, config);
 
 ### `making requests`
 Your mapper object will contain functions to access your api.
-These functions returns whatever the http-layer returns. The default http-layer returns a function that can be used to cancel a request.
+These functions returns whatever the http-layer returns. The default http-layer returns a promise that will resolve with the parsed response.
 
 ##### `params` (optional)
 An object with key/value. If the key is in the path, then it will be used to build the url. If it's not, then it will be used to build the querysting.
@@ -56,7 +56,7 @@ api.Auth.signIn(null, {username : 'blabla', passwordl : 'blablum'}).then(api.Use
 ```
 
 ## Request
-This is the request object that is passed to the http-layers
+This is the request object that is passed to the http-layers and may be passed to some options callback
 
 ```js
 const request = {
@@ -70,8 +70,13 @@ const request = {
 ```
 
 ## RequestStateHandler
-The request state handler is a function that handle a state of a request. The request has 4 possible states : `FETCHING`, `COMPLETED`, `ERROR` or `CANCELLED`. You can handle all of these states but you are not required to.
-A request state handler can return an Action Object, an Array of Action Object or Action Creators, or nothing(in this case we consider that the state handler has dispatched the necessary actions).
+This library provides an ApiReducer, so you don't need to create reducers or actions by hand. However, sometimes we want to use a separeted reducer or do something else when the state of the request change. This is where the RequestStateHandler comes into play. It is just a function that will receive `parsedResponse, api, dispatch` as props. These functions are handled by the redux-api-mapper like this:
+* If the function return an `Object`, then it is considered as an action to be dispatched to the store
+* If the function doesn't return anything, then nothing is done
+* If the function returns another function, then it is considered to be an action creator or even another RequestStateHandler, so it calls this function with the same parameters (parsedResponse, api, dispatch), and handle the return of this function in the same way
+* If the function returns an array, then it takes the correct action of each element of the array. If it's a object then dispatch, if it's a function, resolve the function.
+
+You can define a handler for each state of a request by using stateToAction helper function. Let's see an example:
 
 ```js
 
