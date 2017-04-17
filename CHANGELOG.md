@@ -1,3 +1,9 @@
+## 3.4.0 (04/17/2017)
+
+### Features
+
+* `Request` object now has `api`, `resource`, `endPoint` too.
+
 ## 3.3.2 (04/07/2017)
 
 ### Features

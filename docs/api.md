@@ -65,6 +65,9 @@ const request = {
   params   : Object, 
   headers  : Object, 
   body     : any, 
+  api      : Object,
+  resource : Object,
+  endPoint : Object,
   options  : any
 };
 ```
