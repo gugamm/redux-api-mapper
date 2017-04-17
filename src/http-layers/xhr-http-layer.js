@@ -56,20 +56,27 @@ class XhrHttpLayer {
     let cbAbort   = () => {};
 
     if (memResponse !== undefined) {
+      let memResponseFn = memResponse;
+
       beforeRequest(request);
       stateDispatcher(FetchStates.FETCH_STARTED);
 
+      if (typeof memResponse !== "function")
+        memResponseFn = (() => memResponse);
+
       if (delay > 0) {
         const timeoutId = setTimeout(() => {
-          stateDispatcher(FetchStates.FETCH_COMPLETED, memResponse);
-          afterResponse(request, memResponse);
-          cbSuccess(memResponse);
+          const response = memResponseFn(request);
+          stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+          afterResponse(request, response);
+          cbSuccess(response);
         }, delay);
         this.addMemRequest(timeoutId, request.endPoint, cbAbort);
       } else {
-        stateDispatcher(FetchStates.FETCH_COMPLETED, memResponse);
-        afterResponse(request, memResponse);
-        cbSuccess(memResponse);
+        const response = memResponseFn(request);
+        stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+        afterResponse(request, response);
+        cbSuccess(response);
       }
     } else {
       beforeRequest(request);
@@ -87,20 +94,20 @@ class XhrHttpLayer {
 
         const handleLoad = () => {
           const parsedResponse = parseResponse(buildXhrResponse(xhr));
-          stateDispatcher.dispatch(FetchStates.FETCH_COMPLETED, parsedResponse);
+          stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
           afterResponse(request, parsedResponse);
           cbSuccess(parsedResponse);
         };
 
         const handleError = () => {
           const parsedResponse = parseResponse(buildXhrResponse(xhr));
-          stateDispatcher.dispatch(FetchStates.FETCH_ERROR, parsedResponse);
+          stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
           afterError(request, parsedResponse);
           cbError(parsedResponse);
         };
 
         const handleAbort = () => {
-          stateDispatcher.dispatch(FetchStates.FETCH_CANCELLED);
+          stateDispatcher(FetchStates.FETCH_CANCELLED);
           afterAbort(request);
           cbAbort();
         };
