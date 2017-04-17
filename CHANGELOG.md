@@ -1,3 +1,14 @@
+## 3.5.1 (04/17/2017)
+
+### Features
+
+* New http-layer (`XhrHttpLayer`). Please read the documentation
+
+### Patch
+
+* Add docs for `XhrHttpLayer`
+* Fix a small bug on cacheHandler for `XhrHttpLayer`
+
 ## 3.4.0 (04/17/2017)
 
 ### Features
