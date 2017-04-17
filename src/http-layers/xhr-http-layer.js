@@ -81,10 +81,12 @@ class XhrHttpLayer {
     } else {
       beforeRequest(request);
       stateDispatcher(FetchStates.FETCH_STARTED);
+      let cacheResponse;
 
-      if (cacheHandler) {
-        const cacheResponse = cacheHandler(request);
+      if (cacheHandler)
+        cacheResponse = cacheHandler(request);
 
+      if (cacheResponse !== undefined) {
         stateDispatcher(FetchStates.FETCH_COMPLETED, cacheResponse);
         afterResponse(request, cacheResponse);
         cbSuccess(cacheResponse);
