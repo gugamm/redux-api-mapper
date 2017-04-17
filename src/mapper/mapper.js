@@ -98,7 +98,7 @@ export function buildEndPointFunc(mEndPoint) {
     else
       options = mergeOptions(mapper.options, resource.options, eOptions, options);
 
-    const request = buildRequest(fullPath, eMethod, params, headers, body, options);
+    const request = buildRequest(fullPath, eMethod, params, headers, body, mapper, resource, resource[mEndPoint.name], options);
     const stateDispatcher = buildStateDispatcher(store, eAction, mEndPoint);
 
     if (!httpLayer[eMethod])
