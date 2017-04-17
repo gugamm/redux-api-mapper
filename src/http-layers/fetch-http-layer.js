@@ -8,7 +8,7 @@ class FetchHttpLayer {
     const beforeRequest     = request.options.beforeRequest || (() => {});
     const afterResponse     = request.options.afterResponse || (() => {});
     const parseResponse     = request.options.parseResponse || request.options.responseParse || ((r) => r.json());
-    const parseBody         = request.options.parseBody     || request.options.bodyParse     || ((b) => JSON.stringify(b));
+    const parseBody         = request.options.parseBody     || request.options.bodyParse     || ((b) => b ? JSON.stringify(b) : b);
 
     const cacheHandler      = request.options.cacheHandler;
     const errorHandler      = request.options.errorHandler  || ((e) => e);
