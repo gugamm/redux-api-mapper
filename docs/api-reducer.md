@@ -89,6 +89,11 @@ const config = {
         {
           name: 'getUsers',
           path: '/'
+        },
+        {
+          name: 'getUser',
+          path: '/{id}',
+          reducerData: {} //This endPoint have an Object as initial data
         }
       ]
     },
