@@ -1,6 +1,6 @@
 {
   "name": "redux-api-mapper",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "A redux api mapper",
   "main": "dist/index.js",
   "scripts": {
@@ -21,7 +21,8 @@
   "license": "MIT",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "react": "^15.4.2",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
     "redux": "^3.6.0"
   },
   "devDependencies": {

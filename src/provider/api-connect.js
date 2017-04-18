@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 function apiConnect(apiToProps) {
   return function (ConnectComponent) {
@@ -14,7 +15,7 @@ function apiConnect(apiToProps) {
     }
 
     ApiConnected.contextTypes = {
-      api : React.PropTypes.object
+      api : PropTypes.object
     };
 
     return ApiConnected;

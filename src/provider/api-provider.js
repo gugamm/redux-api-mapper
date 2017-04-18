@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class ApiProvider extends Component {
   getChildContext() {
@@ -13,12 +14,12 @@ class ApiProvider extends Component {
 };
 
 ApiProvider.propTypes = {
-  api : React.PropTypes.object.isRequired,
-  children : React.PropTypes.element.isRequired
+  api : PropTypes.object.isRequired,
+  children : PropTypes.element.isRequired
 };
 
 ApiProvider.childContextTypes = {
-  api : React.PropTypes.object
+  api : PropTypes.object
 };
 
 export default ApiProvider;
