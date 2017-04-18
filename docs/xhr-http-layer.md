@@ -4,7 +4,7 @@ This section will provide you examples and all options supported by the XhrHttpL
 
 ### How to use the XhrHttpLayer
 
-This is the default http-layer. Once you create an apiMapper using `createMapper`, this will be the http-layer.
+To use this http-layer, you need to import and pass as an argument to createMapper function.
 
 ```js
 import { createMapper, XhrHttpLayer } from 'redux-api-mapper';
