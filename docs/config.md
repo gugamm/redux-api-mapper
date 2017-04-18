@@ -13,6 +13,7 @@ var config = {
     /* See http-layer documentation */
   },
   reducerBuilder : customReducerBuilder,
+  reducerData : [], //initial reducer data
   resources : [
     {
       name : 'Users',
@@ -22,6 +23,7 @@ var config = {
       },
       reducerName : 'users',
       reducerBuilder : customReducerBuilder,
+      reducerData : [], //initial reducer data
       options : { 
         /* See http-layer documentation */
       },
@@ -36,6 +38,7 @@ var config = {
           },
           reducerName : 'getUsers',
           reducerBuilder : customReducerBuilder,
+          reducerData : [], //initial reducer data
           options : { 
             /* See http-layer documentation */
           }

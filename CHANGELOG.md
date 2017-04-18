@@ -1,3 +1,9 @@
+## 3.6.0 (04/18/2017)
+
+### Features
+
+* new `reducerData` config prop. You can use this prop to provide an initial data for your api reducer. You can set this prop at config, resource or endPoint level.
+
 ## 3.5.1 (04/17/2017)
 
 ### Features
