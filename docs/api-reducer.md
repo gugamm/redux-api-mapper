@@ -73,6 +73,46 @@ const mapStateToProps = (state) => {
 }
 ```
 
+### Initial data
+When using the default reducer, the initial data is `null`. Sometimes we may want to change this initial value. To do that, we can use the `reducerData` property in our configuration to define the initial data of the reducer. We can provide this property at `global`, `resource` or `endPoint` level. Let's see an example 
+
+```js
+const config = {
+  host: 'http://somehost.com/api',
+  reducerData: [], //all reducers gonna have [] as initial data
+  resources : [
+    {
+      name: 'Users',
+      path: '/users',
+      reducerData: [], //We can define the initial data for this specific resource,
+      endPoints: [
+        {
+          name: 'getUsers',
+          path: '/'
+        }
+      ]
+    },
+    {
+      name: 'Profile',
+      path: '/profile',
+      reducerData: {}, //This specific resource have an Object as intiial data
+      endPoints: [
+        {
+          name: 'getProfile',
+          path: '/'
+        },
+        {
+          name: 'getSchools',
+          path: '/schools',
+          reducerData: [] // This endPoint have an Array as initial data.
+        }
+      ]
+    }
+  ]
+}
+
+```
+
 ### Changing the name of the reducer
 We can change the name of the generated reducers using our configuration. Let's see this in practice.
 
