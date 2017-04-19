@@ -55,7 +55,7 @@ api.Users.getUsers()(
 );
 ```
 
-Note that even though we are not making an http-request, redux-api-mapper will simulate everything for you. Which means that if you are using reducers, it will dispatch FETCH_STARTED and FETCH_COMPLETED for you. 
+Note that even though we are not making an http-request, redux-api-mapper will simulate everything for you. Which means that if you are using reducers, it will dispatch FETCH_STARTED and FETCH_COMPLETED for you. This way you can see your loaders/spinners working... 
 
-If you are using XhrHttpLayer, you can also use `httpLayer.abort()`. It will dispatch an FETCH_ABORT to your reducers.
+If you are using XhrHttpLayer, you can also use `httpLayer.abortRequest()`. It will dispatch an FETCH_ABORT to your reducers.
 
