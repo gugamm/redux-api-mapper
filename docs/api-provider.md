@@ -61,5 +61,36 @@ export default enchance(UserList);
 
 And that's it! We've connected our component to the api object. 
 
-### Tips
+### Providing multiple api objects
+
+What if we want to `provide` multiple api objects? Suppose our application consumes multiple api objects. Can we still provide multiple api objects using the `Provider`?
+
+The answer is yes, and this is possible because the only requirement from the `Provider` is that the `api` prop is an Object. We can create an object containing multiple apis and whenever we want to use `apiConnect`, our `mapApiToProps` only have to access the propesties of this object.
+
+```js
+//Multiple apis object
+//
+//Suppose we have these api objects
+const gitApi = createMapper(/*...*/);
+const redditApi = createMapper(/*...*/);
+//Now lets create an object containing these two api
+const apiMapper = { gitApi, redditApi };
+//Now we can provide our apiMapper
+ReactDOM.render(<ApiProvider api={apiMapper}><App /></ApiProvider>);
+```
+
+In the above example, we composed two api objects into a single one. This way we can provide multiple api objects to our Provider. Now let's see how we can connect using this approach.
+
+```js
+//Here is the magic
+const mapApiToProps = ({gitApi, redditApi}) => {
+  /*return props here*/
+};
+//Export the connected component
+export default apiConnect(SomeComponent);
+```
+
+As you can see, we can have access to both git and reddit api. This is a very good tip if you need to have multiple api objects.
+
+### Other tips
 * If you noticed, we did the api request in the ``componentDidMount`` method. You can read a better explanation for that [here](https://twitter.com/dan_abramov/status/790590733468241920). You should put your api requests in this method.
