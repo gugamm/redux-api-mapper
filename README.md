@@ -14,10 +14,11 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 
 * [Introduction](/docs/introduction.md)
 * [ApiReducer](/docs/api-reducer.md)
-* [Config shape](/docs/config.md)
+* [MemoryApi](/docs/memory-api.md)
 * [ApiProvider and apiConnect](/docs/api-provider.md)
 * [FetchHttpLayer](/docs/fetch-http-layer.md)
 * [XhrHttpLayer](/docs/xhr-http-layer.md)
+* [Config shape](/docs/config.md)
 * [Api Docs](/docs/api.md)
 * [Http-Layers](/docs/http-layers.md)
 
