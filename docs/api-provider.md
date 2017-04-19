@@ -69,12 +69,14 @@ The answer is yes, and this is possible because the only requirement from the `P
 
 ```js
 //Multiple apis object
-//
+
 //Suppose we have these api objects
 const gitApi = createMapper(/*...*/);
 const redditApi = createMapper(/*...*/);
+
 //Now lets create an object containing these two api
 const apiMapper = { gitApi, redditApi };
+
 //Now we can provide our apiMapper
 ReactDOM.render(<ApiProvider api={apiMapper}><App /></ApiProvider>);
 ```
@@ -86,6 +88,7 @@ In the above example, we composed two api objects into a single one. This way we
 const mapApiToProps = ({gitApi, redditApi}) => {
   /*return props here*/
 };
+
 //Export the connected component
 export default apiConnect(SomeComponent);
 ```
