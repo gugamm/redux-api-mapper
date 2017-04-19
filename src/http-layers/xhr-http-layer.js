@@ -11,6 +11,34 @@ const buildXhrResponse = (xhr) => {
   };
 };
 
+const REQUEST_STATE_SUCCESS = "REQUEST_STATE_SUCCESS";
+const REQUEST_STATE_ERROR = "REQUEST_STATE_ERROR";
+const REQUEST_STATE_ABORTED = "REQUEST_STATE_ABORTED";
+
+class ObservableRequest {
+  constructor() {
+    this.listeners = [];
+    this.state = null;
+    this.data = null;
+  }
+
+  subscribe(listener, state) {
+    this.listeners = [...this.listeners, {listener, state}];
+    if (this.state !== null && state === this.state)
+      listener(this.data);
+  }
+
+  setState(reqState, data) {
+    this.state = reqState;
+    this.data = data;
+
+    this.listeners.forEach(({ listener, state }) => {
+      if (state === this.state)
+        listener(this.data);
+    });
+  }
+};
+
 class XhrHttpLayer {
   constructor() {
     this.requestsContainer = [];
@@ -19,20 +47,24 @@ class XhrHttpLayer {
   addRequest(xhr, endPoint) {
     const req = { endPoint, xhr };
     this.requestsContainer = [...this.requestsContainer, req];
+
+    return req;
   }
 
-  addMemRequest(timeoutId, endPoint, onAbort) {
+  addMemRequest(timeoutId, endPoint, observableRequest) {
     const req = {
       endPoint,
       xhr : {
         abort: () => {
           clearTimeout(timeoutId);
-          onAbort();
+          observableRequest.setState(REQUEST_STATE_ABORTED);
         }
       }
     };
 
     this.requestsContainer = [...this.requestsContainer, req];
+
+    return req;
   }
 
   handleRequest(stateDispatcher, request, method) {
@@ -51,10 +83,10 @@ class XhrHttpLayer {
     const responseType  = options.responseType || "json";
     const mimeType      = options.mimeType;
 
-    let cbSuccess = () => {};
-    let cbError   = () => {};
-    let cbAbort   = () => {};
+    let observableRequest = new ObservableRequest();
+    let currentRequest = null;
 
+    //memory response
     if (memResponse !== undefined) {
       let memResponseFn = memResponse;
 
@@ -69,14 +101,18 @@ class XhrHttpLayer {
           const response = memResponseFn(request);
           stateDispatcher(FetchStates.FETCH_COMPLETED, response);
           afterResponse(request, response);
-          cbSuccess(response);
+
+          observableRequest.setState(REQUEST_STATE_SUCCESS, response);
+          this.removeRequest(currentRequest);
         }, delay);
-        this.addMemRequest(timeoutId, request.endPoint, cbAbort);
+
+        currentRequest = this.addMemRequest(timeoutId, request.endPoint, observableRequest);
       } else {
         const response = memResponseFn(request);
         stateDispatcher(FetchStates.FETCH_COMPLETED, response);
         afterResponse(request, response);
-        cbSuccess(response);
+
+        observableRequest.setState(REQUEST_STATE_SUCCESS, response);
       }
     } else {
       beforeRequest(request);
@@ -89,29 +125,36 @@ class XhrHttpLayer {
       if (cacheResponse !== undefined) {
         stateDispatcher(FetchStates.FETCH_COMPLETED, cacheResponse);
         afterResponse(request, cacheResponse);
-        cbSuccess(cacheResponse);
+
+        observableRequest.setState(REQUEST_STATE_SUCCESS, cacheResponse);
       } else {
         const xhr = new XMLHttpRequest();
-        this.addRequest(xhr, request.endPoint);
+        currentRequest = this.addRequest(xhr, request.endPoint);
 
         const handleLoad = () => {
           const parsedResponse = parseResponse(buildXhrResponse(xhr));
           stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
           afterResponse(request, parsedResponse);
-          cbSuccess(parsedResponse);
+
+          observableRequest.setState(REQUEST_STATE_SUCCESS, parsedResponse);
+          this.removeRequest(currentRequest);
         };
 
         const handleError = () => {
           const parsedResponse = parseResponse(buildXhrResponse(xhr));
           stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
           afterError(request, parsedResponse);
-          cbError(parsedResponse);
+
+          observableRequest.setState(REQUEST_STATE_ERROR, parsedResponse);
+          this.removeRequest(currentRequest);
         };
 
         const handleAbort = () => {
           stateDispatcher(FetchStates.FETCH_CANCELLED);
           afterAbort(request);
-          cbAbort();
+
+          observableRequest.setState(REQUEST_STATE_ABORTED);
+          this.removeRequest(currentRequest);
         };
 
         xhr.addEventListener('load', handleLoad);
@@ -132,10 +175,15 @@ class XhrHttpLayer {
       }
     }
 
-    return function (onSuccess = cbSuccess, onError = cbError, onAbort = cbAbort) {
-      cbSuccess = onSuccess;
-      cbError   = onError;
-      cbAbort   = onAbort;
+    return function (cbSuccess, cbError, cbAbort) {
+      if (cbSuccess)
+        observableRequest.subscribe(cbSuccess, REQUEST_STATE_SUCCESS);
+
+      if (cbError)
+        observableRequest.subscribe(cbError, REQUEST_STATE_ERROR);
+
+      if (cbAbort)
+        observableRequest.subscribe(cbAbort, REQUEST_STATE_ABORTED);
     };
   }
 
@@ -152,6 +200,10 @@ class XhrHttpLayer {
     });
 
     return aborted;
+  }
+
+  removeRequest(r) {
+    this.requestsContainer = this.requestsContainer.filter(req => req === r);
   }
 
   get(stateDispatcher, request) {
