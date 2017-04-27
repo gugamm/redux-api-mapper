@@ -132,11 +132,21 @@ class XhrHttpLayer {
         currentRequest = this.addRequest(xhr, request.endPoint);
 
         const handleLoad = () => {
-          const parsedResponse = parseResponse(buildXhrResponse(xhr));
-          stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
+          const response = buildXhrResponse(xhr);
+          const parsedResponse = parseResponse(response);
+
+          if (response.ok)
+            stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
+          else
+            stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
+
           afterResponse(request, parsedResponse);
 
-          observableRequest.setState(REQUEST_STATE_SUCCESS, parsedResponse);
+          if (response.ok)
+            observableRequest.setState(REQUEST_STATE_SUCCESS, parsedResponse);
+          else
+            observableRequest.setState(REQUEST_STATE_ERROR, parsedResponse);
+
           this.removeRequest(currentRequest);
         };
 
