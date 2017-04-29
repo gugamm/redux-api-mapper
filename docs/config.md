@@ -5,6 +5,7 @@ This section will provide you the shape of the config object. Here we will list 
 ```js
 var config = {
   host : 'http://somehost.com/api',
+  name : 'MyCoolApi',
   headers : {
     'Authorization' : () => window.localStorage.getItem('token'),
     'Content-type' : 'application/json'

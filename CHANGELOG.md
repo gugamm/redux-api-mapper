@@ -1,3 +1,9 @@
+## 3.7.0 (04/29/2017)
+
+### Features
+
+* New `name` prop at root level. If using multiple `apiMappers` and multiple `apiReducers`, it's possible that you may end up with the same combination of `resource name` + `end-point name`. To solve this problem, you can add a `name` property to your root configuration. This will make the api reducers more unique and it will avoid conflicts. This prop is totally optional. It's only a new feature and should only be used if you are mapping more than one api at the same time. 
+
 ## 3.6.0 (04/18/2017)
 
 ### Features

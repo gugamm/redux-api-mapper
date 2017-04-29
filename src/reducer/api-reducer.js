@@ -14,7 +14,7 @@ function createApiReducer(config) {
 
 function createResourceReducer(config, resource) {
   const endPointsReducers = resource.endPoints.reduce((acc, endPoint) => {
-    const actionBuilder = buildActionBuilder(resource, endPoint);
+    const actionBuilder = buildActionBuilder(config, resource, endPoint);
     const name = endPoint.reducerName || endPoint.name;
 
     if (endPoint.reducerBuilder)
