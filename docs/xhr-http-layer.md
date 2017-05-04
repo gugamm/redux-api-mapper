@@ -35,7 +35,7 @@ When using this http-layer, whenever you make a call to your api using one of yo
 
 `(onSuccess, onError, onAbort) -> Void`
 
-You can call this function to pass a listener for each state of the request. This way you can chain requests.
+You can call this function to **add** a listener for each state of the request. 
 
 ```js
 /* Passing listeners directly */
