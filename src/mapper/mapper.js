@@ -9,6 +9,7 @@ import { mergeHeaders, mergeOptions } from '../utils/merge';
 export function createMapper(store, config, httpLayer) {
   let mapper = {
     store      : store,
+    name       : config.name,
     httpLayer  : (httpLayer) ? httpLayer : new FetchHttpLayer(),
     host       : config.host,
     headers    : config.headers,
@@ -53,7 +54,7 @@ export function addEndPointToResource(resource, endPoint) {
     action    : endPoint.action
   };
 
-  let actionBuilder = buildActionBuilder(resource, endPoint);
+  let actionBuilder = buildActionBuilder(resource.name, endPoint.name, resource._mapper.name);
 
   resource[endPoint.name]            = buildEndPointFunc(mEndPoint);
   resource[endPoint.name].path       = mEndPoint.path;

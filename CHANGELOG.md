@@ -1,3 +1,8 @@
+## 3.7.1 (05/07/2017) -- Recommended Version
+
+### Bug fix
+* Fix invalid buildActionHandler internal call
+
 ## 3.7.0 (04/29/2017)
 
 ### Features

@@ -2,6 +2,11 @@ import { combineReducers } from 'redux';
 import buildActionBuilder from './action-builder';
 import buildReducerBuilder from './default-reducer';
 
+/**
+ * Generates a combined reducer for all api end-points based on the configuration provided
+ * @param {Object} config - The configuration object
+ * @returns {Reducer<S>}
+ */
 function createApiReducer(config) {
   const resourcesReducers = config.resources.reduce((acc, resource) => {
     const name = resource.reducerName || resource.name;
@@ -10,11 +15,11 @@ function createApiReducer(config) {
   }, {});
 
   return combineReducers(resourcesReducers);
-};
+}
 
 function createResourceReducer(config, resource) {
   const endPointsReducers = resource.endPoints.reduce((acc, endPoint) => {
-    const actionBuilder = buildActionBuilder(config, resource, endPoint);
+    const actionBuilder = buildActionBuilder(resource.name, endPoint.name, config.name);
     const name = endPoint.reducerName || endPoint.name;
 
     if (endPoint.reducerBuilder)

@@ -9,7 +9,7 @@ function headerToObject(header) {
       newHeader[headerKey] = header[headerKey]();
     else
       newHeader[headerKey] = header[headerKey];
-  };
+  }
 
   return newHeader;
 }

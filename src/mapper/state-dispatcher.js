@@ -4,7 +4,7 @@ function buildStateDispatcher(store, stateToAction, mEndPoint) {
   const storeDispatcher = store.dispatch;
   const mapper          = mEndPoint._resource._mapper;
   const resource        = mEndPoint._resource;
-  const actionBuilder   = buildActionBuilder(resource, mEndPoint);
+  const actionBuilder   = buildActionBuilder(resource.name, mEndPoint.name, mapper.name);
 
   let stateDispatcher = function (state, payload) {
 

@@ -8,10 +8,10 @@ function stateToAction(handleFetch, handleComplete, handleError, handleCancel) {
       case FetchStates.FETCH_COMPLETED : return handleComplete;
       case FetchStates.FETCH_ERROR     : return handleError;
       case FetchStates.FETCH_CANCELLED : return handleCancel;
-    };
+    }
 
     throw new Error('Unknown state : ' + state);
   };
-};
+}
 
 export default stateToAction;
