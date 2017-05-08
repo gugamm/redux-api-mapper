@@ -35,10 +35,20 @@ When using this http-layer, whenever you make a call to your api using one of yo
 
 `(onSuccess, onError, onAbort) -> Void`
 
-You can call this function to pass a listener for each state of the request. This way you can chain requests.
+You can call this function to **add** a listener for each state of the request. 
 
 ```js
+/* Passing listeners directly */
+
   api.Users.getUsers()(
+    (parsedResponse) => console.log('OnSuccess', response),
+    (parsedResponse) => console.log('OnError', response),
+    () => console.log('OnAbort')
+  );
+  
+/* Using a "subscribe" variable to store the subscribe function (I recommend using this method because you can call the subscribe function many times you want) */
+  const subscribe =  api.Users.getUsers();
+  subscribe(
     (parsedResponse) => console.log('OnSuccess', response),
     (parsedResponse) => console.log('OnError', response),
     () => console.log('OnAbort')
@@ -65,10 +75,10 @@ Now let's take a look at all options supported by the XhrHttpLayer.
 `afterResponse` is a function called after the response have been parsed and the request has succeed
 
 #### afterError :: (Request, ParsedResponse) -> any
-`afterResponse` is a function called after the response have been parsed and the request has failed
+`afterError` is a function called after the response have been parsed and the request has failed. A fail means a network error or a response status error like 500, 401, 400, 404...
 
 #### afterAbort :: (Request) -> any
-`afterResponse` is a function called after the response have been parsed and the request has been aborted
+`afterAbort` is a function called after the response have been parsed and the request has been aborted
 
 #### parseBody  :: (Body) -> ParsedBody
 `parseBody` is a function called to parse a body before making the request.
