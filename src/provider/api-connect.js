@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * Connect a component to api functions
+ * @param {Function} apiToProps
+ * @returns {Function} - Returns a connected component
+ */
 function apiConnect(apiToProps) {
   return function (ConnectComponent) {
     class ApiConnected extends Component {
@@ -20,6 +25,6 @@ function apiConnect(apiToProps) {
 
     return ApiConnected;
   };
-};
+}
 
 export default apiConnect;

@@ -6,6 +6,13 @@ import buildActionBuilder from '../reducer/action-builder';
 import { FetchHttpLayer } from '../http-layers';
 import { mergeHeaders, mergeOptions } from '../utils/merge';
 
+/**
+ * Create an api object for mapping an api
+ * @param {Object} store - redux store
+ * @param {Object} config - Configuration object
+ * @param {Object} [httpLayer] - http layer object
+ * @returns {{store: *, name: String, httpLayer: Object, host: String, headers: Object.<String, (String|Function)>, options: Object}}
+ */
 export function createMapper(store, config, httpLayer) {
   let mapper = {
     store      : store,
@@ -25,7 +32,7 @@ export function createMapper(store, config, httpLayer) {
   return mapper;
 }
 
-export function addResourceToMapper(mapper, resource) {
+function addResourceToMapper(mapper, resource) {
   let mResource = {
     _mapper : mapper,
     name    : resource.name,
@@ -43,7 +50,7 @@ export function addResourceToMapper(mapper, resource) {
   mapper[resource.name] = mResource;
 }
 
-export function addEndPointToResource(resource, endPoint) {
+function addEndPointToResource(resource, endPoint) {
   let mEndPoint = {
     _resource : resource,
     name      : endPoint.name,
@@ -74,7 +81,7 @@ export function addEndPointToResource(resource, endPoint) {
   }
 }
 
-export function buildEndPointFunc(mEndPoint) {
+function buildEndPointFunc(mEndPoint) {
   return function (params, body, headers, options) {
     const mapper    = mEndPoint._resource._mapper;
     const resource  = mEndPoint._resource;

@@ -1,1 +1,1 @@
-export {default as stateToAction} from './state-to-action';
+export { default as stateToAction } from './state-to-action';

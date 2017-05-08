@@ -11,7 +11,7 @@ class ApiProvider extends Component {
   render() {
     return this.props.children;
   }
-};
+}
 
 ApiProvider.propTypes = {
   api : PropTypes.object.isRequired,

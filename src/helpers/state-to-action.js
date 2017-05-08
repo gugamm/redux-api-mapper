@@ -1,5 +1,13 @@
 import FetchStates from '../mapper/fetch-states';
 
+/**
+ * A helper function that maps each handler to a specific request state
+ * @param {Function|Object} handleFetch
+ * @param {Function|Object} handleComplete
+ * @param {Function|Object} handleError
+ * @param {Function|Object} handleCancel
+ * @returns {Function}
+ */
 function stateToAction(handleFetch, handleComplete, handleError, handleCancel) {
   return function (state) {
 
