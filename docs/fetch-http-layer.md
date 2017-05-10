@@ -4,7 +4,7 @@ This section will provide you examples and all options supported by the FetchHtt
 
 ### How to use the FetchHttpLayer
 
-This is the default http-layer. Once you create an apiMapper using `createMapper`, this will be the http-layer.
+Since this is the default http-layer, once you create an apiMapper using `createMapper`, this will be the http-layer.
 
 ```js
 import { createMapper } from 'redux-api-mapper';
@@ -14,6 +14,16 @@ const config =/*...*/;
 
 //This mapper will use the FetchHttpLayer by default
 const apiMapper = createMapper(store, config);
+```
+
+### The returned value
+
+This layer returns a `Promise<ParsedResponse>`.
+
+```js
+//create apiMapper...
+apiMapper.Users.getUsers().then(users => console.log(users)).catch(err => console.err(err));
+
 ```
 
 ### Supported options
