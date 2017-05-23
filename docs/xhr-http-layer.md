@@ -82,7 +82,7 @@ Now let's take a look at all options supported by the XhrHttpLayer.
 
 #### parseBody  :: (Body) -> ParsedBody
 `parseBody` is a function called to parse a body before making the request.
-The FetchHttpLayer already provides a default behavior for this. It parse the body into a string using `JSON.stringify`
+This layer already provides a default behavior for this. It parse the body into a string using `JSON.stringify`
 
 #### parseResponse :: (Response) -> ParsedResponse
 `parseResponse` is a function called after the request has been completed. You can use this function to parse the response. 

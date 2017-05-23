@@ -61,9 +61,9 @@ This is the request object that is passed to the http-layers and may be passed t
 ```js
 const request = {
   fullPath : string, 
-  path     : string, 
-  params   : Object, 
-  headers  : Object, 
+  method   : string, 
+  params   : Object<string, string>, 
+  headers  : Object<string, string>, 
   body     : any, 
   api      : Object,
   resource : Object,
