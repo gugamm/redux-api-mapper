@@ -117,7 +117,7 @@ function buildEndPointFunc(mEndPoint) {
     if (httpLayer.mergeOptions)
       options = httpLayer.mergeOptions(mapper.options, resource.options, eOptions, options);
     else
-      options = advancedMerge(mapper.options, resource.options, eOptions, options);
+      options = Object.assign({}, mapper.options, resource.options, eOptions, options);
 
     const request = buildRequest(fullPath, eMethod, requestParams, headers, body, mapper, resource, endPoint, options);
 
