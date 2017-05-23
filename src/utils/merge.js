@@ -1,25 +1,21 @@
-function headerToObject(header) {
-  let newHeader = {};
+function mapToPlainObject(obj) {
+  let plainObj = {};
 
-  if (!header)
-    return newHeader;
+  if (!obj)
+    return plainObj;
 
-  for (let headerKey in header) {
-    if (typeof header[headerKey] === "function")
-      newHeader[headerKey] = header[headerKey]();
+  for (let key in obj) {
+    if (typeof obj[key] === "function")
+      plainObj[key] = obj[key]();
     else
-      newHeader[headerKey] = header[headerKey];
+      plainObj[key] = obj[key];
   }
 
-  return newHeader;
+  return plainObj;
 }
 
-function mergeHeaders(mapHeaders, resHeaders, endHeaders, reqHeaders) {
-  return Object.assign({}, headerToObject(mapHeaders), headerToObject(resHeaders), headerToObject(endHeaders), headerToObject(reqHeaders));
+function advancedMerge(a, b, c, d) {
+  return Object.assign({}, mapToPlainObject(a), mapToPlainObject(b), mapToPlainObject(c), mapToPlainObject(d));
 }
 
-function mergeOptions(mapOptions, resOptions, endOptions, reqOptions) {
-  return Object.assign({}, mapOptions, resOptions, endOptions, reqOptions);
-}
-
-export {mergeHeaders, mergeOptions};
+export default advancedMerge;

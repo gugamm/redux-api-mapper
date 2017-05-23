@@ -4,23 +4,26 @@ import buildRequest from './request';
 import buildStateDispatcher from './state-dispatcher';
 import buildActionBuilder from '../reducer/action-builder';
 import { FetchHttpLayer } from '../http-layers';
-import { mergeHeaders, mergeOptions } from '../utils/merge';
+import advancedMerge from '../utils/merge';
 
 /**
  * Create an api object for mapping an api
  * @param {Object} store - redux store
  * @param {Object} config - Configuration object
  * @param {Object} [httpLayer] - http layer object
+ * @param {Function} [transformer] - a transformer function that takes the http layer response and transform into something else
  * @returns {{store: *, name: String, httpLayer: Object, host: String, headers: Object.<String, (String|Function)>, options: Object}}
  */
-export function createMapper(store, config, httpLayer) {
+export function createMapper(store, config, httpLayer, transformer) {
   let mapper = {
     store      : store,
     name       : config.name,
     httpLayer  : (httpLayer) ? httpLayer : new FetchHttpLayer(),
     host       : config.host,
+    params     : config.params,
     headers    : config.headers,
-    options    : config.options
+    options    : config.options,
+    transformer: transformer || ((httpLayerResponse) => httpLayerResponse)
   };
 
   const resources = config.resources;
@@ -37,6 +40,7 @@ function addResourceToMapper(mapper, resource) {
     _mapper : mapper,
     name    : resource.name,
     path    : resource.path,
+    params  : resource.params,
     headers : resource.headers,
     options : resource.options
   };
@@ -55,13 +59,14 @@ function addEndPointToResource(resource, endPoint) {
     _resource : resource,
     name      : endPoint.name,
     path      : endPoint.path,
+    params    : endPoint.params,
     headers   : endPoint.headers,
     options   : endPoint.options,
     method    : (endPoint.method) ? endPoint.method : HttpMethods.GET,
     action    : endPoint.action
   };
 
-  let actionBuilder = buildActionBuilder(resource.name, endPoint.name, resource._mapper.name);
+  let actionBuilder = buildActionBuilder(resource.name, mEndPoint.name, resource._mapper.name);
 
   resource[endPoint.name]            = buildEndPointFunc(mEndPoint);
   resource[endPoint.name].path       = mEndPoint.path;
@@ -69,6 +74,7 @@ function addEndPointToResource(resource, endPoint) {
   resource[endPoint.name].options    = mEndPoint.options;
   resource[endPoint.name].method     = mEndPoint.method;
   resource[endPoint.name].action     = mEndPoint.action;
+  resource[endPoint.name].params     = mEndPoint.params;
   resource[endPoint.name].clearState = function () {
     let { dispatch } = resource._mapper.store;
     dispatch({type : actionBuilder("CLEAR_STATE")});
@@ -83,36 +89,43 @@ function addEndPointToResource(resource, endPoint) {
 
 function buildEndPointFunc(mEndPoint) {
   return function (params, body, headers, options) {
-    const mapper    = mEndPoint._resource._mapper;
-    const resource  = mEndPoint._resource;
-    const httpLayer = mEndPoint._resource._mapper.httpLayer;
-    const store     = mapper.store;
+    const mapper      = mEndPoint._resource._mapper;
+    const transformer = mapper.transformer;
+    const resource    = mEndPoint._resource;
+    const endPoint    = resource[mEndPoint.name];
+    const httpLayer   = mEndPoint._resource._mapper.httpLayer;
+    const store       = mapper.store;
 
-    const ePath    = resource[mEndPoint.name].path;
-    const eHeaders = resource[mEndPoint.name].headers;
-    const eOptions = resource[mEndPoint.name].options;
-    const eAction  = resource[mEndPoint.name].action;
-    const eMethod  = resource[mEndPoint.name].method;
+    const ePath    = endPoint.path;
+    const eHeaders = endPoint.headers;
+    const eOptions = endPoint.options;
+    const eAction  = endPoint.action;
+    const eMethod  = endPoint.method;
 
-    const fullPath = buildRequestPath(mapper.host, resource.path, ePath, params);
+    const mapperParams   = mapper.params || {};
+    const resourceParams = resource.params || {};
+    const endPointParams = endPoint.params || {};
+    const requestParams  = advancedMerge(mapperParams, resourceParams, endPointParams, params);
+
+    const fullPath = buildRequestPath(mapper.host, resource.path, ePath, requestParams);
 
     if (httpLayer.mergeHeaders)
       headers = httpLayer.mergeHeaders(mapper.headers, resource.headers, eHeaders, headers);
     else
-      headers = mergeHeaders(mapper.headers, resource.headers, eHeaders, headers);
+      headers = advancedMerge(mapper.headers, resource.headers, eHeaders, headers);
 
     if (httpLayer.mergeOptions)
       options = httpLayer.mergeOptions(mapper.options, resource.options, eOptions, options);
     else
-      options = mergeOptions(mapper.options, resource.options, eOptions, options);
+      options = advancedMerge(mapper.options, resource.options, eOptions, options);
 
-    const request = buildRequest(fullPath, eMethod, params, headers, body, mapper, resource, resource[mEndPoint.name], options);
+    const request = buildRequest(fullPath, eMethod, requestParams, headers, body, mapper, resource, endPoint, options);
+
     const stateDispatcher = buildStateDispatcher(store, eAction, mEndPoint);
 
     if (!httpLayer[eMethod])
       throw new Error('Current http-layers do not support ' + eMethod + ' method');
 
-    return httpLayer[eMethod](stateDispatcher, request);
+    return transformer(httpLayer[eMethod](stateDispatcher, request));
   };
 }
-
