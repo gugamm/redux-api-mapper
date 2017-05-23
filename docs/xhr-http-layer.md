@@ -80,6 +80,9 @@ Now let's take a look at all options supported by the XhrHttpLayer.
 #### afterAbort :: (Request) -> any
 `afterAbort` is a function called after the response have been parsed and the request has been aborted
 
+#### payload :: Object
+`payload` is an object that will be used to merge with the action payload that will be dispatched. This prop is useful to pass extra data for reducers.
+
 #### parseBody  :: (Body) -> ParsedBody
 `parseBody` is a function called to parse a body before making the request.
 This layer already provides a default behavior for this. It parse the body into a string using `JSON.stringify`

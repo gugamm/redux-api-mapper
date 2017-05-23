@@ -1,4 +1,17 @@
-## 3.7.1 (05/07/2017) -- Recommended Version
+## 4.0.0 (05/23/2017)
+
+### Bug fix
+* Now FetchHttpLayer call beforeRequest and afterResponse even if it's a memResponse or cacheHandler
+
+### Features
+* New `params` config option. This option can be used to define default params to the request
+* New `payload` option for FetchHttpLayer and XhrHttpLayer. It allows pass payload data to the action that will be dispatched to the reducers. (It can be used to pass the page that is being fetched, for example)
+* `transfomer` is a new feature that allows `transform` the result of a http-layer into something else. This can be used to create a single use interface even by changing http-layers. For example, you can `transform` the response of the XhrHttpLayer into a Promise. This will make the XhrHttpLayer work like the FetchHttpLayer.
+
+### Breaking changes
+* Removed `mergeHeaders` optional method for `http-layers`. Only the default implementation is used now. (Note that the `mergeOptions` is still available and will always be)
+
+## 3.7.1 (05/07/2017)
 
 ### Bug fix
 * Fix invalid buildActionHandler internal call

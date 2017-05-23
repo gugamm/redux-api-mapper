@@ -40,30 +40,31 @@ const myHttpLayer = {
       //Here we are receiving the parseResponse options
       var parser = (request.options.parseResponse) || ((response) => response);
       stateDispatcher(FETCH_STARTED);
-        fetch(request.fullPath).then(parser).then(response => stateDispatcher(FETCH_COMPLETED, response)); 
+        fetch(request.fullPath).then(parser).then(parsedResponse => stateDispatcher(FETCH_COMPLETED, { data: parsedResponse })); 
     }
 }
 ```
 
 <b>That's it! You can implement any options you would like to. For example the default http-layer support ``beforeRequest``, ``afterResponse``, ``responseParse``, ``bodyParse``.</b>
 
-### Merge options and merge headers
+### Merge options
 
-By default, the redux-api-mapper will merge the configuration from outsite to inside, which means that everything we define in a endPoint, would override the definitions in a Resource for example.
+By default, the redux-api-mapper will merge options from outsite to inside, which means that everything we define in a endPoint, would override the definitions in a Resource for example.
 
-We can change this behavior by implementing ``mergeOptions`` and ``mergeHeaders`` in our layers.
+We can change this behavior by implementing `mergeOptions` in our layers.
 
 ```js
 const myHttpLayer = {
   mergeOptions : function (mapperOptions, resourceOptions, endPointOptions, requestOptions) {
       return Object.assign({}, requestOptions, endPointOptions, resourceOptions, mapperOptions);
-    },
-  mergeHeaders : function (mapperHeaders, resourceHeaders, endPointHeaders, requestHeaders) {
-     return Object.assign({}, requestHeaders, endPointHeaders, resourceHeaders, mapperHeaders);
-  }   
+  } 
 }
 ```
 
 Here we changed how the merge works. We are merging from inside to outside. You can do anything here. This is very powerful. 
 
 For example, if the user define ``parseResponse`` at the resource and the endPoint, we could, instead of overriding, chain these parses. This is useful for logging for example.
+
+### Caveats
+
+* Both `XhrHttpLayer` and `FetchHttpLayer` dispatch the action for the response data inside the `data` prop in the payload. So, for compatibility with the default reducer, you must take this into consideration.

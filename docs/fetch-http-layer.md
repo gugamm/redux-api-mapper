@@ -42,6 +42,9 @@ The FetchHttpLayer already provides a default behavior for this. It parse the bo
 #### parseResponse :: (Response) -> Promise\<ParsedResponse\>
 `parseResponse` is a function called after the request has been completed. You can use this function to parse the response. The FetchHttpLayer already provides a default behavior for this function. It uses response.json(). Please refer to the [FetchApi](https://github.com/github/fetch) for more information about the `Response` object.
 
+#### payload :: Object
+`payload` is an object that will be used to merge with the action payload that will be dispatched. This prop is useful to pass extra data for reducers.
+
 #### memResponse :: Object | Function(Request) -> Response
 `memResponse` is an option to help you at development when you don't have an api method implemented yet. You can provide a `memory response`, so every time you use the method you gonna get the memory response. You can also provide a function to this option.
 

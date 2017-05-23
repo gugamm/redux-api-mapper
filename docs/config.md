@@ -4,21 +4,27 @@ This section will provide you the shape of the config object. Here we will list 
 
 ```js
 var config = {
-  host : 'http://somehost.com/api',
-  name : 'MyCoolApi',
-  headers : {
+  host : 'http://somehost.com/api', 
+  name : 'MyCoolApi', //An indentifier for the api-mapper
+  headers : { // Headers can be function or strings
     'Authorization' : () => window.localStorage.getItem('token'),
     'Content-type' : 'application/json'
   },
   options : {
     /* See http-layer documentation */
   },
-  reducerBuilder : customReducerBuilder,
+  params: {
+    count: 2, // default parameters for all requests
+  },
+  reducerBuilder : customReducerBuilder, //See api-reducer for mor information
   reducerData : [], //initial reducer data
   resources : [
     {
       name : 'Users',
       path : '/users',
+      params: { // default parameters for USERS requests
+        count: 2,
+      },
       headers : {
         'Some-Fancy-Header' : 'some-fancy-header'
       },
@@ -33,6 +39,9 @@ var config = {
           name : 'getUsers',
           path : '/',
           method : 'get',
+          params: { // default parameters for GET_USERS requests
+            count: 2,
+          },
           action : stateToAction(actionOnFetch, actionOnComplete, actionOnError, actionOnCancelled),
           headers : {
             'Another-Fancy-Header' : 'fancy-header'

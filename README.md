@@ -1,4 +1,4 @@
-# Redux-Api-Mapper
+# redux-api-mapper
 
 [![NPM Version](https://badge.fury.io/js/redux-api-mapper.svg)](https://www.npmjs.com/package/redux-api-mapper)
 
@@ -10,9 +10,10 @@ Many react/redux applications need to interact with an api. To solve this proble
 
 Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any api with a simple config definition. You can create an object with methods for accessing your api. It will automatically dispatch actions for your reducers based on the state of the request. This library also create an apiReducer so you don't have to create any reducer or actions by hand.
 
-## Documentation (3.7.x)
+## Documentation (4.0.x)
 
 * [Introduction](/docs/introduction.md)
+* [Making Requests](/docs/requests.md)
 * [ApiReducer](/docs/api-reducer.md)
 * [MemoryApi](/docs/memory-api.md)
 * [ApiProvider and apiConnect](/docs/api-provider.md)
@@ -25,6 +26,7 @@ Redux-Api-Mapper for rescue! It's a small but powerful utility for mapping any a
 ## Examples
 
 * [redux-api-mapper-example](https://github.com/gugamm/redux-api-mapper-example)
+* [pager and cache example](https://github.com/gugamm/pager-example)
 
 ## Install
 
@@ -67,7 +69,7 @@ const config = /*...*/
 const api = createMapper(store, config);
 
 // Use your api
-api.Repos.getRepos({username : 'gugamm'});
+api.Repos.getRepos({username : 'gugamm'}).then(repos => console.log(repos));
 ```
 
 Depending on how you are using this library, you can take advantage of the built-in api reducer, provide your own or use an external one. When making the request, the library will automatically dispatch actions to your reducers depending on the state of the request.
