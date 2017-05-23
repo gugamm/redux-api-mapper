@@ -9,30 +9,35 @@ class FetchHttpLayer {
     const afterResponse     = request.options.afterResponse || (() => {});
     const parseResponse     = request.options.parseResponse || request.options.responseParse || ((r) => r.json());
     const parseBody         = request.options.parseBody     || request.options.bodyParse     || ((b) => b ? JSON.stringify(b) : b);
-
+    const payload           = request.options.payload       || {};
     const cacheHandler      = request.options.cacheHandler;
     const errorHandler      = request.options.errorHandler  || ((e) => e);
     const delay             = request.options.delay;
     const memResponse       = request.options.memResponse;
     const credentials       = request.options.credentials;
 
+    beforeRequest(request);
+    stateDispatcher(FetchStates.FETCH_STARTED, payload);
+
     if (memResponse !== undefined) {
       const memResponseFn = (typeof memResponse === "function") ? memResponse : (() => memResponse);
 
       return new Promise((resolve) => {
         if (delay > 0) {
-          stateDispatcher(FetchStates.FETCH_STARTED);
+          stateDispatcher(FetchStates.FETCH_STARTED, payload);
           setTimeout(() => {
             const response = memResponseFn(request);
 
-            stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+            stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: response }));
+            afterResponse(response);
             resolve(response)
           }, delay);
         }
         else {
           const response = memResponseFn(request);
 
-          stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+          stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: response }));
+          afterResponse(response);
           resolve(response);
         }
       });
@@ -43,14 +48,12 @@ class FetchHttpLayer {
 
       if (cacheResponse !== undefined) {
         return new Promise((resolve) => {
-          stateDispatcher(FetchStates.FETCH_COMPLETED, cacheResponse);
+          stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: cacheResponse }));
+          afterResponse(cacheResponse);
           resolve(cacheResponse);
         });
       }
     }
-
-    beforeRequest(request);
-    stateDispatcher(FetchStates.FETCH_STARTED);
 
     fetch(request.fullPath, {
       method      : method,
@@ -67,9 +70,9 @@ class FetchHttpLayer {
               afterResponse(request, parsedResponse);
 
               if (hasError)
-                stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
+                stateDispatcher(FetchStates.FETCH_ERROR, Object.assign({}, payload, { data: parsedResponse }));
               else
-                stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
+                stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: parsedResponse }));
 
               resolve(parsedResponse);
             }
@@ -78,7 +81,7 @@ class FetchHttpLayer {
         });
       }
     ).catch((e) => {
-      stateDispatcher(FetchStates.FETCH_ERROR, errorHandler(e));
+      stateDispatcher(FetchStates.FETCH_ERROR, Object.assign({}, payload, { data: errorHandler(e) }));
     });
   }
 

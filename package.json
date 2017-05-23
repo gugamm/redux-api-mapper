@@ -1,6 +1,6 @@
 {
   "name": "redux-api-mapper",
-  "version": "3.8.0",
+  "version": "4.0.0",
   "description": "A redux api mapper",
   "main": "dist/index.js",
   "scripts": {

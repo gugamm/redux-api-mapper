@@ -75,6 +75,7 @@ class XhrHttpLayer {
     const afterAbort    = options.afterAbort    || (() => {});
     const parseResponse = options.parseResponse || options.responseParse || ((r) => r.data);
     const parseBody     = options.parseBody     || options.bodyParse || ((b) => b ? JSON.stringify(b) : b);
+    const payload       = options.payload       || {};
 
     const memResponse   = options.memResponse;
     const delay         = options.delay;
@@ -91,7 +92,7 @@ class XhrHttpLayer {
       let memResponseFn = memResponse;
 
       beforeRequest(request);
-      stateDispatcher(FetchStates.FETCH_STARTED);
+      stateDispatcher(FetchStates.FETCH_STARTED, payload);
 
       if (typeof memResponse !== "function")
         memResponseFn = (() => memResponse);
@@ -99,7 +100,7 @@ class XhrHttpLayer {
       if (delay > 0) {
         const timeoutId = setTimeout(() => {
           const response = memResponseFn(request);
-          stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+          stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: response }));
           afterResponse(request, response);
 
           observableRequest.setState(REQUEST_STATE_SUCCESS, response);
@@ -109,24 +110,24 @@ class XhrHttpLayer {
         currentRequest = this.addMemRequest(timeoutId, request.endPoint, observableRequest);
       } else {
         const response = memResponseFn(request);
-        stateDispatcher(FetchStates.FETCH_COMPLETED, response);
+        stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: response }));
         afterResponse(request, response);
 
         observableRequest.setState(REQUEST_STATE_SUCCESS, response);
       }
     } else {
       beforeRequest(request);
-      stateDispatcher(FetchStates.FETCH_STARTED);
+      stateDispatcher(FetchStates.FETCH_STARTED, payload);
       let cacheResponse;
 
       if (cacheHandler)
         cacheResponse = cacheHandler(request);
 
       if (cacheResponse !== undefined) {
-        stateDispatcher(FetchStates.FETCH_COMPLETED, cacheResponse);
+        stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: cacheResponse }));
         afterResponse(request, cacheResponse);
 
-        observableRequest.setState(REQUEST_STATE_SUCCESS, cacheResponse);
+        observableRequest.setState(REQUEST_STATE_SUCCESS, Object.assign({}, payload, { data: cacheResponse }));
       } else {
         const xhr = new XMLHttpRequest();
         currentRequest = this.addRequest(xhr, request.endPoint);
@@ -136,9 +137,9 @@ class XhrHttpLayer {
           const parsedResponse = parseResponse(response);
 
           if (response.ok)
-            stateDispatcher(FetchStates.FETCH_COMPLETED, parsedResponse);
+            stateDispatcher(FetchStates.FETCH_COMPLETED, Object.assign({}, payload, { data: parsedResponse }));
           else
-            stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
+            stateDispatcher(FetchStates.FETCH_ERROR, Object.assign({}, payload, { data: parsedResponse }));
 
           afterResponse(request, parsedResponse);
 
@@ -152,7 +153,7 @@ class XhrHttpLayer {
 
         const handleError = () => {
           const parsedResponse = parseResponse(buildXhrResponse(xhr));
-          stateDispatcher(FetchStates.FETCH_ERROR, parsedResponse);
+          stateDispatcher(FetchStates.FETCH_ERROR, Object.assign({}, payload, { data: parsedResponse }));
           afterError(request, parsedResponse);
 
           observableRequest.setState(REQUEST_STATE_ERROR, parsedResponse);
@@ -160,7 +161,7 @@ class XhrHttpLayer {
         };
 
         const handleAbort = () => {
-          stateDispatcher(FetchStates.FETCH_CANCELLED);
+          stateDispatcher(FetchStates.FETCH_CANCELLED, payload);
           afterAbort(request);
 
           observableRequest.setState(REQUEST_STATE_ABORTED);

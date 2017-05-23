@@ -21,9 +21,9 @@ function buildReducerBuilder(initialData) {
     return function reducer(prevState = defState, action) {
       switch (action.type) {
         case FETCH_STARTED   : return {...defState, isFetching: true};
-        case FETCH_COMPLETED : return {...defState, isSuccess : true, data : action.payload};
-        case FETCH_CANCELLED : return {...defState, isCancelled : true, cancelledData : action.payload};
-        case FETCH_ERROR     : return {...defState, isError : true, errorData : action.payload};
+        case FETCH_COMPLETED : return {...defState, isSuccess : true, data : action.payload.data};
+        case FETCH_CANCELLED : return {...defState, isCancelled : true, cancelledData : action.payload.data};
+        case FETCH_ERROR     : return {...defState, isError : true, errorData : action.payload.data};
         case CLEAR_STATE     : return defState;
       }
       return prevState;

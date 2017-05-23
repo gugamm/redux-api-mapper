@@ -109,10 +109,7 @@ function buildEndPointFunc(mEndPoint) {
 
     const fullPath = buildRequestPath(mapper.host, resource.path, ePath, requestParams);
 
-    if (httpLayer.mergeHeaders)
-      headers = httpLayer.mergeHeaders(mapper.headers, resource.headers, eHeaders, headers);
-    else
-      headers = advancedMerge(mapper.headers, resource.headers, eHeaders, headers);
+    headers = advancedMerge(mapper.headers, resource.headers, eHeaders, headers);
 
     if (httpLayer.mergeOptions)
       options = httpLayer.mergeOptions(mapper.options, resource.options, eOptions, options);
