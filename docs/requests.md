@@ -12,6 +12,7 @@ const config = {
   resources: [
     {
       name: 'Items',
+      path: '/items',
       endPoints: [
         {
           name: 'getItems',
@@ -45,7 +46,7 @@ Note that for making requests, we gonna follow the following pattern: **mapper.[
 ### What happens
 Remember that the library does not know how to make requests. For this task, it uses what it's called `http-layer`. Whenever we make a call, the library will call a `http-layer` method according to the `method` option. The http-layer will then handle the request and return **something**. Depending on what the http-layer returns, we can, for example, chain requests.
 
-The http-layer also plays an important rule here. It is responsible for dispatching actions for the store according to the state of the request. Both `XhrHttpLayer` and `FetchHttpLayer` dispatch actions according to the state of the request and also support options for you to pass payload data for your reducers.
+The http-layer also plays another important rule here. It is responsible for dispatching actions for the store according to the state of the request. Both `XhrHttpLayer` and `FetchHttpLayer` dispatch actions according to the state of the request and also support options for you to pass payload data for your reducers.
 
 ### Method parameters
 Now let's see the parameters we can pass when making requests:
