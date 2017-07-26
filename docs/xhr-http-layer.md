@@ -41,16 +41,16 @@ You can call this function to **add** a listener for each state of the request.
 /* Passing listeners directly */
 
   api.Users.getUsers()(
-    (parsedResponse) => console.log('OnSuccess', response),
-    (parsedResponse) => console.log('OnError', response),
+    (parsedResponse) => console.log('OnSuccess', parsedResponse),
+    (parsedResponse) => console.log('OnError', parsedResponse),
     () => console.log('OnAbort')
   );
   
 /* Using a "subscribe" variable to store the subscribe function (I recommend using this method because you can call the subscribe function many times you want) */
   const subscribe =  api.Users.getUsers();
   subscribe(
-    (parsedResponse) => console.log('OnSuccess', response),
-    (parsedResponse) => console.log('OnError', response),
+    (parsedResponse) => console.log('OnSuccess', parsedResponse),
+    (parsedResponse) => console.log('OnError', parsedResponse),
     () => console.log('OnAbort')
   );
 ```
