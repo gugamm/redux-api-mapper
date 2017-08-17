@@ -55,7 +55,7 @@ const defaultReducer = {
   isSuccess     : Boolean,
   isError       : Boolean,
   isCancelled   : Boolean,
-  data          : any,
+  data          : any, // this can be overridden using reducerData
   errorData     : any,
   cancelledData : any
 }
@@ -150,16 +150,16 @@ const mapStateToProps = (state) => {
 ```
 
 ### Overriding the default reducer
-The default reducer can be overridden if we provide a `reducerBuilder` in our configuration. The `reducerBuilder` is a function that receive an `actionBuilder` and returns a reducer. The action builder necessary because you can use it to build the actions related to an specific end point.
+The default reducer can be overridden if we provide a `reducerBuilder` in our configuration. The `reducerBuilder` is a function that receive an `actionBuilder`, the initial `reducerData` and returns a reducer. You must use the actionBuilder to build the actions related to an specific end point.
 Let's see this in practice
 
 ```js
 import { FetchStates } from 'redux-api-mapper';
 
-const myReducerBuilder = function (actionBuilder) {
+const myReducerBuilder = function (actionBuilder, reducerData) {
   const defaultState = {
     isFetching : false,
-    data : null,
+    data : reducerData || null,
     fetchingCount : 0
   };
   
@@ -201,7 +201,8 @@ const config = {
           path : '/',
           
           //End point level (will be used only in this end point)
-          reducerBuilder : myReducerBuilder
+          reducerBuilder : myReducerBuilder,
+          reducerData: [], // initial value for our custom reducer
         }
       ] 
     }

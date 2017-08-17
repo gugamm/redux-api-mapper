@@ -1,3 +1,11 @@
+## 4.1.x (08/17/2017)
+
+### Features
+* `reducerData` is now passed as a second parameter for custom reducerBuilder functions. You may now use it to set a initial value for your custom reducers. The default value for reducerData is `undefined`, so if this prop is not set the second parameter for the custom builder will be `undefined`.
+
+### Minor changes
+* Update documentation
+
 ## 4.0.0 (05/23/2017)
 
 ### Bug fix
