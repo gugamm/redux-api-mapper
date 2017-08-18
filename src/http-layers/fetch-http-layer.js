@@ -1,7 +1,7 @@
 import FetchStates from '../mapper/fetch-states';
 import HttpMethods from '../mapper/http-methods';
 
-import 'isomorphic-fetch';
+import 'fetch-everywhere';
 
 class FetchHttpLayer {
   handleRequest(stateDispatcher, request, method) {
